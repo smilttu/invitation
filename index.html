@@ -237,8 +237,11 @@ body.scroll-locked{overflow:hidden;height:100vh}
 #nikah-light .nik-title em{color:var(--terra);font-style:italic}
 #nikah-light .nik-doodle{margin:0 auto 28px;max-width:280px}
 #nikah-light .nik-doodle img{width:100%;height:auto;display:block}
-#nikah-light .nik-details{font-family:var(--fh);font-size:clamp(12px,2.9vw,15px);
-  color:var(--ink-light);opacity:0.75;line-height:1.7}
+#nikah-light .nik-details{display:inline-flex;gap:14px;align-items:center;
+  font-family:var(--fh);font-size:clamp(14px,3.4vw,17px);color:var(--ink-light);
+  opacity:0.78;flex-wrap:wrap;justify-content:center}
+#nikah-light .nik-details .dot{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
 
 /* ── VENUE SCRUB (image-sequence, device-aware) ── */
 #venue-section{height:800vh;position:relative;background:#000;display:none}
@@ -534,9 +537,16 @@ canvas#booth-canvas{display:none}
     <div class="nik-doodle reveal d2">
       <img src="Web_assets/Holding_hands.png" alt="Two hands joining in Nikah"/>
     </div>
-    <div class="nik-details reveal d3">11:30 AM &nbsp;•&nbsp; Durbar Convention Center &nbsp;•&nbsp; Kodungallur</div>
+    <div class="nik-details reveal d3">
+      <span>1:30 PM</span>
+      <span class="dot"></span>
+      <span>Durbar Convention Center</span>
+      <span class="dot"></span>
+      <span>Kodungallur</span>
+    </div>
   </div>
 </section>
+
 
 <!-- ── VENUE SCRUB ── -->
 <section id="venue-section">
