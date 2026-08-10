@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Naseef & Nisrin — Wedding Invitation</title>
+<meta name="description" content="You are invited to the wedding of Naseef & Nisrin · October 2026 · Kozhikode"/>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="Web_assets/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="Web_assets/favicon-32.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="Web_assets/apple-touch-icon.png"/>
+
+<!-- Open Graph (WhatsApp, Instagram, iMessage previews) -->
+<meta property="og:title" content="Naseef & Nisrin — Wedding Invitation"/>
+<meta property="og:description" content="You are warmly invited to the wedding of Naseef & Nisrin · October 19, 2026 · Farm Rock Garden, Chungam"/>
+<meta property="og:image" content="https://naseef-pp.github.io/invitation/Web_assets/og_image.jpg"/>
+<meta property="og:url" content="https://naseef-pp.github.io/invitation/"/>
+<meta property="og:type" content="website"/>
+
+<!-- WhatsApp specifically uses this -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://naseef-pp.github.io/invitation/Web_assets/og_image.jpg"/>
+  
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Caveat:wght@400;600;700&family=Mulish:wght@300;400;500&family=Amiri:ital,wght@0,400;0,700;1,400&family=Baloo+Chettan+2:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<style>
+/* ── VARIABLES ── */
+:root{
+  --cream:#FAF7F2;--cream-mid:#F2EBE0;--cream-dark:#E4D9C8;
+  --ink:#1E1810;--ink-mid:#3D2F20;--ink-light:#6B5544;
+  --sage:#7A9E7E;--sage-l:#B8D4BA;--sage-d:#4E7852;
+  --terra:#C4714A;--terra-l:#E8A07D;--terra-d:#9A4F2E;
+  --gold:#C9A84C;--gold-l:#E8D48C;--gold-d:#8B7030;
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fh:'Caveat',cursive;--fb:'Mulish',sans-serif;--fa:'Amiri',serif;
+  --fm:'Baloo Chettan 2','Mulish',sans-serif;
+}
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--fb);
+  font-weight:300;line-height:1.7;overflow-x:hidden;cursor:none}
+@media(max-width:768px){body{cursor:auto}}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+/* ── CURSOR ── */
+#dot{position:fixed;width:10px;height:10px;background:var(--terra);border-radius:50%;
+  pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:multiply}
+#tcanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997}
+@media(max-width:768px){#dot,#tcanvas{display:none}}
+
+/* ── PETALS ── */
+#petals{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.petal{position:absolute;top:-16px;border-radius:60% 0 60% 0;opacity:0;
+  animation:petalFall linear infinite}
+@keyframes petalFall{
+  0%{transform:translateY(-5vh) rotate(0deg);opacity:0}
+  8%{opacity:0.28}
+  90%{opacity:0.18}
+  100%{transform:translateY(108vh) rotate(360deg);opacity:0}}
+
+/* ── ENVELOPE ── */
+#env-overlay{position:fixed;inset:0;z-index:10000;cursor:pointer;
+  transition:opacity 0.7s ease,visibility 0.7s ease}
+#env-overlay.gone{opacity:0;visibility:hidden;pointer-events:none}
+.env-half{position:absolute;left:0;right:0;height:50%;background:var(--cream);
+  z-index:1;transition:transform 0.88s cubic-bezier(0.76,0,0.24,1)}
+#env-top{top:0;border-bottom:1px solid var(--cream-dark)}
+#env-bot{bottom:0}
+#env-top.open{transform:translateY(-100%)}
+#env-bot.open{transform:translateY(100%)}
+/* decorative corner lines on envelope */
+#env-top::before,#env-top::after,#env-bot::before,#env-bot::after{
+  content:'';position:absolute;border:1px solid var(--gold);opacity:0.2;pointer-events:none}
+#env-top::before{top:16px;left:16px;right:16px;bottom:0}
+#env-bot::after{top:0;left:16px;right:16px;bottom:16px}
+.env-content{position:absolute;inset:0;z-index:2;pointer-events:none}
+.env-content.fade{opacity:0;transition:opacity 0.4s ease}
+/* seal sits exactly on the seam where the two envelope halves meet (50% line) */
+.env-seal-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:all;cursor:pointer;transition:transform 0.2s ease}
+.env-seal-wrap:hover{transform:translate(-50%,-50%) scale(1.07)}
+.env-hint{position:absolute;top:50%;left:50%;
+  transform:translate(-50%,calc(-50% + 62px));white-space:nowrap;
+  font-family:var(--fh);font-size:13px;color:var(--ink-light);
+  letter-spacing:0.12em;text-transform:uppercase;
+  animation:hintPulse 2.2s ease-in-out infinite}
+@keyframes hintPulse{0%,100%{opacity:0.35}50%{opacity:0.85}}
+.cracked .seal-fill{fill:#9A4F2E}
+
+/* ── SCROLL LOCK (active until seal is tapped) ── */
+body.scroll-locked{overflow:hidden;height:100vh}
+
+/* ── ENVELOPE ADDRESS ── */
+.env-address{position:absolute;top:35%;left:50%;
+  transform:translateX(-50%);
+  font-family:var(--fh);font-size:clamp(22px,5vw,32px);
+  color:var(--ink);letter-spacing:0.03em;white-space:nowrap;
+  opacity:0.82;pointer-events:none}
+.env-address strong{font-weight:700}
+#music-btn{position:fixed;top:20px;right:20px;z-index:500;width:42px;height:42px;
+  border-radius:50%;background:var(--cream);border:1.5px solid var(--cream-dark);
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+  transition:all 0.25s ease}
+#music-btn:hover{border-color:var(--gold);transform:scale(1.06)}
+#music-btn svg{width:18px;height:18px;stroke:var(--ink-light);transition:stroke 0.3s}
+#music-btn.on svg{stroke:var(--terra)}
+.music-bars{display:none;align-items:flex-end;gap:2.5px;height:14px}
+.music-bars i{width:2.5px;background:var(--terra);display:block;border-radius:1px;
+  animation:eq 0.9s ease-in-out infinite}
+.music-bars i:nth-child(1){height:7px;animation-delay:0s}
+.music-bars i:nth-child(2){height:13px;animation-delay:0.18s}
+.music-bars i:nth-child(3){height:9px;animation-delay:0.36s}
+@keyframes eq{0%,100%{transform:scaleY(0.4)}50%{transform:scaleY(1)}}
+#music-btn.on svg{display:none}
+#music-btn.on .music-bars{display:flex}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:80px;left:50%;
+  transform:translateX(-50%) translateY(10px);
+  background:var(--ink);color:var(--cream);font-family:var(--fh);font-size:15px;
+  padding:11px 22px;border-radius:30px;z-index:8000;opacity:0;
+  transition:opacity 0.3s ease,transform 0.3s ease;
+  max-width:88vw;text-align:center;pointer-events:none;
+  box-shadow:0 4px 18px rgba(0,0,0,0.2)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── SKY BG ── */
+#sky-bg{position:fixed;top:0;left:0;right:0;height:40vh;
+  pointer-events:none;z-index:0;transition:background 1.5s ease}
+
+/* ── SHARED ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.75s ease,transform 0.75s ease}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:0.10s}.d2{transition-delay:0.20s}
+.d3{transition-delay:0.30s}.d4{transition-delay:0.42s}
+.divider{width:36px;height:1.5px;background:var(--gold);margin:20px auto;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;width:5px;height:5px;
+  border-radius:50%;background:var(--gold);top:50%;transform:translateY(-50%)}
+.divider::before{left:-9px}.divider::after{right:-9px}
+.corner{position:absolute;opacity:0.11;pointer-events:none}
+.btn{font-family:var(--fh);font-size:15px;padding:11px 22px;border-radius:30px;
+  cursor:pointer;border:none;transition:all 0.22s ease;text-decoration:none;
+  display:inline-flex;align-items:center;gap:7px}
+.btn-p{background:var(--terra);color:white;box-shadow:3px 3px 0 var(--terra-d)}
+.btn-p:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--terra-d)}
+.btn-s{background:var(--cream);color:var(--ink);border:1.5px solid var(--cream-dark);
+  box-shadow:3px 3px 0 var(--cream-dark)}
+.btn-s:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--cream-dark);border-color:var(--gold)}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:60px 20px;
+  position:relative;overflow:hidden;background:transparent}
+.hero-badge{font-family:var(--fd);font-style:italic;font-size:clamp(18px,3.6vw,22px);
+  color:var(--ink-light);letter-spacing:0.06em;display:inline-block;margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.3s}
+.hero-art{margin:0 auto 24px;opacity:0;animation:fadeUp 1s ease forwards 0.5s;cursor:pointer}
+.hero-art img{width:clamp(270px,68vw,420px);height:auto;display:block}
+.hero-names{font-family:var(--fh);font-size:clamp(44px,11vw,90px);color:var(--ink);
+  line-height:1.05;opacity:0;animation:fadeUp 1s ease forwards 0.7s}
+.hero-names .amp{color:var(--terra);font-size:0.68em;
+  display:inline-block;transform:rotate(-6deg);margin:0 6px}
+.hero-tagline{font-family:var(--fd);font-style:italic;
+  font-size:clamp(14px,2.5vw,18px);color:var(--ink-light);letter-spacing:0.07em;
+  margin-top:12px;opacity:0;animation:fadeIn 1s ease forwards 1s}
+.birds-deco{position:absolute;top:10%;left:50%;transform:translateX(-50%);
+  width:min(320px,80vw);pointer-events:none;opacity:0.3}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s ease forwards 1.3s}
+.scroll-hint span{font-family:var(--fh);font-size:12px;
+  color:var(--ink-light);letter-spacing:0.1em}
+.sarr{width:17px;height:17px;border-right:1.5px solid var(--ink-light);
+  border-bottom:1.5px solid var(--ink-light);transform:rotate(45deg);
+  animation:bounce 1.6s ease-in-out infinite}
+
+/* ── NIKAH ── */
+#nikah{text-align:center;padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
+  background:rgba(250,247,242,0.94);position:relative;z-index:1}
+/* ── NIKAH SECTION (Option 4 — dark ceremonial) ── */
+#nikah{background:linear-gradient(170deg,#1E2A1F 0%,#12180F 100%);
+  padding:clamp(70px,12vw,120px) clamp(20px,5vw,60px);
+  text-align:center;position:relative;overflow:hidden}
+#nikah::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 70% 30%,rgba(196,113,74,0.12) 0%,transparent 65%);
+  pointer-events:none}
+.nik-bism{font-family:var(--fa);font-size:clamp(18px,3vw,28px);
+  color:rgba(255,255,255,0.45);margin-bottom:36px;line-height:1.5;position:relative}
+.nik-hands{margin:0 auto 44px;max-width:240px;position:relative}
+.nik-hands img{width:100%;height:auto;display:block}
+.nik-title{font-family:var(--fd);font-weight:300;
+  font-size:clamp(46px,11vw,78px);color:rgba(255,255,255,0.92);
+  line-height:1.1;margin-bottom:12px;position:relative}
+.nik-title em{color:var(--terra-l);font-style:italic}
+.nik-sub{font-family:var(--fd);font-style:italic;
+  font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.4);
+  margin-bottom:48px;position:relative}
+.nik-divider{width:1px;height:48px;background:rgba(255,255,255,0.15);
+  margin:0 auto 40px;position:relative}
+.nik-details{display:flex;flex-direction:column;gap:16px;
+  align-items:center;position:relative}
+.nik-detail{font-family:var(--fd);font-size:clamp(18px,4vw,26px);
+  color:rgba(255,255,255,0.7);font-weight:300}
+.nik-detail em{color:var(--terra-l);font-style:italic;font-weight:400}
+.nik-detail .nik-place-sub{font-size:clamp(14px,3vw,20px);
+  color:rgba(255,255,255,0.4);font-style:italic;display:block;margin-top:2px}
+
+/* ── NIKAH VENUE CARD ── */
+#nikah-location{text-align:center;
+  padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
+  background:rgba(242,235,224,0.97);position:relative;z-index:1}
+.nloc-card{max-width:480px;margin:0 auto;border-radius:16px;overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,0.1);cursor:pointer;
+  transition:transform 0.2s ease,box-shadow 0.2s ease;display:block;
+  text-decoration:none;color:inherit}
+.nloc-card:hover,.nloc-card:active{transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.15)}
+.nloc-map-area{height:150px;background:#B8D4BA;position:relative;overflow:hidden}
+.nloc-body{background:#fff;padding:20px 24px}
+.nloc-name{font-family:var(--fd);font-size:clamp(20px,4.5vw,26px);
+  color:var(--ink);font-weight:400;margin-bottom:4px}
+.nloc-addr{font-family:var(--fb);font-size:13px;color:var(--ink-light);margin-bottom:16px}
+.nloc-directions{display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--fb);font-size:13px;color:var(--terra);font-weight:500}
+
+/* ── NIKAH BRIEF MENTION (for reception-only guests) ── */
+#nikah-mention{text-align:center;
+  padding:clamp(40px,7vw,70px) clamp(20px,5vw,60px);
+  background:rgba(242,235,224,0.97);position:relative;z-index:1}
+.nik-mention-inner{max-width:480px;margin:0 auto;
+  border:1px solid var(--cream-dark);border-radius:12px;
+  padding:28px 24px;background:var(--cream)}
+.nik-mention-eyebrow{font-family:var(--fh);font-size:12px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-light);margin-bottom:10px}
+.nik-mention-title{font-family:var(--fd);font-weight:300;
+  font-size:clamp(24px,6vw,36px);color:var(--ink);margin-bottom:14px}
+.nik-mention-title em{color:var(--terra);font-style:italic}
+.nik-mention-detail{font-family:var(--fd);font-size:clamp(14px,3.2vw,17px);
+  color:var(--ink-light);line-height:1.8}
+
+/* ── VENUE SCRUB (image-sequence, device-aware) ── */
+#venue-section{height:800vh;position:relative;background:#000;display:none}
+@media(max-width:768px){#venue-section{height:400vh}}
+#venue-section.visible{display:block}
+.venue-sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;background:#000}
+#venue-canvas{display:block;width:100%;height:100%;object-fit:cover}
+.venue-vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:linear-gradient(to bottom,rgba(0,0,0,0.35) 0%,transparent 18%,
+    transparent 78%,rgba(0,0,0,0.45) 100%)}
+
+/* ── LAST FRAME PLACEHOLDER (shown until the device-correct scrub frames are ready) ── */
+#last-frame-section{width:100%;height:100vh;overflow:hidden;background:#000}
+#last-frame-section.hidden{display:none}
+#last-frame-img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ── COUNTDOWN ── */
+#countdown{text-align:center;
+  padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
+  background:rgba(250,247,242,0.96);position:relative;z-index:1}
+.cd-label{font-family:var(--fd);font-style:italic;font-weight:300;
+  font-size:clamp(34px,8.5vw,44px);color:var(--ink);margin-bottom:32px}
+.cd-grid{display:flex;justify-content:center;gap:clamp(12px,3vw,28px);flex-wrap:wrap}
+.cd-unit{display:flex;flex-direction:column;align-items:center;gap:8px}
+.cd-box{width:clamp(70px,15vw,108px);height:clamp(70px,15vw,108px);
+  background:var(--cream);border:1.5px solid var(--cream-dark);border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:3px 3px 0 var(--cream-dark);position:relative;overflow:hidden}
+.cd-box::before{content:'';position:absolute;inset:5px;
+  border:1px dashed var(--cream-dark);border-radius:10px;opacity:0.5}
+.cd-num{font-family:var(--fh);font-size:clamp(26px,5.5vw,48px);
+  color:var(--terra);font-weight:700;position:relative;z-index:1;line-height:1}
+.cd-name{font-family:var(--fh);font-size:12px;
+  color:var(--ink-light);letter-spacing:0.08em;text-transform:uppercase}
+
+/* ── LOCATION ── */
+#location{text-align:center;
+  padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
+  background:rgba(242,235,224,0.97);position:relative;z-index:1}
+.loc-t{font-family:var(--fd);font-weight:300;
+  font-size:clamp(38px,9.5vw,44px);color:var(--ink);margin-bottom:32px}
+.loc-t em{color:var(--terra);font-style:italic}
+.loc-card{max-width:460px;margin:0 auto;background:var(--cream);
+  border:1.5px solid var(--cream-dark);border-radius:20px;
+  overflow:hidden;box-shadow:4px 4px 0 var(--cream-dark)}
+.map-area{height:150px;background:var(--sage-l);overflow:hidden}
+.loc-body{padding:22px 24px;text-align:left}
+.loc-name{font-family:var(--fh);font-size:22px;color:var(--ink);margin-bottom:4px}
+.loc-addr{font-family:var(--fb);font-size:13px;
+  color:var(--ink-light);line-height:1.6;margin-bottom:18px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ── LETTER ── */
+#letter{text-align:center;
+  padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
+  background:rgba(242,235,224,0.97);position:relative;z-index:1}
+.letter-eye{font-family:var(--fh);font-size:13px;color:var(--sage-d);
+  letter-spacing:0.14em;text-transform:uppercase;margin-bottom:28px}
+.letter-card{max-width:500px;margin:0 auto;background:#FDFAF5;
+  border:1.5px solid var(--cream-dark);border-radius:4px;
+  padding:clamp(28px,5vw,48px);text-align:left;
+  box-shadow:4px 4px 0 var(--cream-dark),8px 8px 0 rgba(228,217,200,0.5);
+  position:relative;overflow:hidden}
+.letter-card::before{content:'';position:absolute;top:0;bottom:0;left:36px;
+  width:1px;background:rgba(196,113,74,0.15);pointer-events:none}
+.letter-text{font-family:var(--fh);font-size:clamp(16px,2.5vw,19px);
+  color:var(--ink-mid);line-height:1.9;padding-left:20px}
+.letter-text p{margin-bottom:16px}
+.letter-text p:last-child{margin-bottom:0}
+.letter-sig{font-family:var(--fh);font-size:clamp(19px,3.5vw,26px);
+  color:var(--terra);margin-top:24px;padding-left:20px;
+  border-top:1px solid var(--cream-dark);padding-top:16px}
+
+/* ── PHOTO BOOTH ── */
+#photobooth{padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
+  text-align:center;background:rgba(250,247,242,0.96);
+  position:relative;z-index:1}
+.booth-title{font-family:var(--fd);font-style:italic;font-weight:300;
+  font-size:clamp(26px,5vw,42px);color:var(--ink);margin-bottom:8px}
+.booth-title em{color:var(--terra)}
+.booth-sub{font-family:var(--fb);font-size:13px;
+  color:var(--ink-light);margin-bottom:36px}
+/* live camera view */
+.booth-live{max-width:360px;margin:0 auto;position:relative;display:none}
+.booth-frame-wrap{position:relative;width:100%}
+.booth-video-el{position:absolute;object-fit:cover;border-radius:4px;
+  transform:scaleX(-1);
+  /* aligned to transparent photo area in Wed_polaroid_frame.png */
+  top:22%;left:15%;width:70%;height:54%;display:block}
+.booth-frame-img{width:100%;height:auto;display:block;position:relative;z-index:2;
+  pointer-events:none}
+.booth-actions{margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+/* fallback when no camera */
+.booth-fallback{max-width:360px;margin:0 auto}
+.booth-fallback img{width:clamp(180px,50vw,280px);height:auto;margin:0 auto 24px;display:block}
+.booth-fallback p{font-family:var(--fd);font-style:italic;
+  font-size:clamp(15px,2.5vw,19px);color:var(--ink-light);margin-bottom:24px}
+canvas#booth-canvas{display:none}
+
+/* ── WISHBOARD ── */
+#wishboard{padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
+  position:relative;z-index:1;
+  background:linear-gradient(180deg,#0A1828 0%,#121820 100%)}
+.wb-header{text-align:center;margin-bottom:40px}
+.wb-eye{font-family:var(--fh);font-size:13px;color:var(--sage-l);
+  letter-spacing:0.14em;text-transform:uppercase;text-align:center;margin:32px 0 0}
+.wb-title{font-family:var(--fd);font-weight:300;
+  font-size:clamp(38px,9.5vw,44px);color:white;margin-bottom:8px}
+.wb-title em{color:var(--terra-l);font-style:italic}
+.wish-form{max-width:440px;margin:44px auto 0;background:#F9F5EC;
+  border-radius:4px;padding:24px;
+  box-shadow:3px 3px 0 rgba(0,0,0,0.2),6px 6px 0 rgba(0,0,0,0.1);
+  transform:rotate(-0.5deg);position:relative}
+.wish-form label{display:block;font-family:var(--fh);font-size:clamp(16px,4vw,18px);
+  color:var(--ink-mid);margin-bottom:7px}
+.wish-form input,.wish-form textarea{width:100%;border:none;
+  font-family:var(--fm);font-size:clamp(16px,4vw,18px);
+  border-bottom:1.5px solid var(--cream-dark);background:transparent;
+  padding:8px 0;font-family:var(--fh);font-size:16px;color:var(--ink);
+  outline:none;transition:border-color 0.2s;resize:none;margin-bottom:14px}
+.wish-form input:focus,.wish-form textarea:focus{border-color:var(--terra)}
+.wish-form textarea{height:80px}
+.w-char{font-family:var(--fh);font-size:12px;color:var(--ink-light);
+  opacity:0.55;text-align:right;margin-top:-10px;margin-bottom:12px}
+.w-char.warn{color:var(--terra)}
+.w-row{display:flex;justify-content:flex-end}
+/* corkboard */
+.corkboard{max-width:900px;margin:0 auto;
+  background:linear-gradient(135deg,#8B6914 0%,#A07820 30%,#8B6914 60%,#9A7218 100%);
+  border-radius:12px;padding:28px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4),inset 0 0 40px rgba(0,0,0,0.15);
+  position:relative}
+.corkboard::before{content:'';position:absolute;inset:0;border-radius:12px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.6' fill='rgba(0,0,0,0.08)'/%3E%3Ccircle cx='3' cy='3' r='0.5' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E");
+  pointer-events:none}
+.board-label{font-family:var(--fh);font-size:13px;color:rgba(255,255,255,0.55);
+  letter-spacing:0.1em;text-transform:uppercase;text-align:center;
+  margin-bottom:20px;position:relative;z-index:1}
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:16px;position:relative;z-index:1}
+.note{padding:18px 16px 14px;border-radius:2px;
+  box-shadow:2px 2px 6px rgba(0,0,0,0.25);font-family:var(--fh);
+  animation:noteIn 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards}
+.note-pinned{background:#FFFDE0;transform:rotate(-0.4deg) !important;
+  border-top:3px solid var(--gold)}
+.note:nth-child(4n+1){background:#FFF8E0;transform:rotate(-1.2deg)}
+.note:nth-child(4n+2){background:#E8F5E8;transform:rotate(0.8deg)}
+.note:nth-child(4n+3){background:#FDE8E0;transform:rotate(-0.6deg)}
+.note:nth-child(4n+4){background:#E8E8F8;transform:rotate(1.4deg)}
+.note-from{font-size:16px;color:var(--terra-d);font-weight:600;margin-bottom:6px}
+.note-text{font-size:14px;color:#3D2F20;line-height:1.55}
+.show-more-row{text-align:center;margin-top:22px;position:relative;z-index:1}
+#show-more-btn{background:rgba(255,255,255,0.15);color:white;
+  border:1px solid rgba(255,255,255,0.25);font-family:var(--fh);font-size:14px;
+  padding:10px 24px;border-radius:20px;cursor:pointer;
+  transition:all 0.2s;display:none}
+#show-more-btn:hover{background:rgba(255,255,255,0.25)}
+@keyframes noteIn{from{opacity:0;transform:scale(0.85) translateY(8px)}to{opacity:1}}
+
+/* ── CLOSING ── */
+#closing{min-height:70vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:80px clamp(20px,5vw,60px);
+  position:relative;overflow:hidden;z-index:1;
+  background:linear-gradient(180deg,#121820 0%,#0A1020 100%)}
+.cl-art{margin:0 auto 28px;opacity:0.88;cursor:pointer}
+.cl-art img{width:clamp(210px,58vw,360px);height:auto;display:block;margin:0 auto}
+.cl-arabic{font-family:var(--fa);font-size:clamp(18px,3.5vw,34px);
+  color:rgba(255,255,255,0.72);margin-bottom:6px}
+.cl-trans{font-family:var(--fd);font-style:italic;
+  font-size:clamp(11px,1.8vw,13px);color:rgba(255,255,255,0.35);
+  letter-spacing:0.04em}
+.cl-see{font-family:var(--fd);font-style:italic;
+  font-size:clamp(19px,4vw,26px);color:rgba(255,255,255,0.78);margin-bottom:18px}
+.cl-heart{font-size:30px;display:block;margin:6px 0 22px;
+  animation:heartBeat 1.6s ease-in-out infinite}
+.cl-names{font-family:var(--fh);font-size:clamp(30px,6.5vw,46px);
+  color:var(--terra-l);line-height:1.25;margin-bottom:34px}
+.cl-names .small{font-family:var(--fd);font-style:italic;
+  font-size:1em;color:rgba(255,255,255,0.55);display:block;margin-bottom:6px}
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
+@keyframes heartBeat{0%,100%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:none}42%{transform:scale(1.1)}56%{transform:none}}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .cd-grid{gap:9px}
+  .notes-grid{grid-template-columns:1fr 1fr}
+  .corkboard{padding:16px}
+  .btn-row{justify-content:center}
+}
+@media(max-width:380px){.notes-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- PETALS -->
+<div id="petals"></div>
+
+<!-- CURSOR -->
+<div id="dot"></div>
+<canvas id="tcanvas"></canvas>
+
+<!-- SKY BG -->
+<div id="sky-bg"></div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- MUSIC BUTTON -->
+<button id="music-btn" aria-label="Toggle music">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+  </svg>
+  <span class="music-bars"><i></i><i></i><i></i></span>
+</button>
+
+<!-- ══ ENVELOPE OVERLAY ══ -->
+<div id="env-overlay">
+  <div class="env-half" id="env-top"></div>
+  <div class="env-half" id="env-bot"></div>
+  <div class="env-content" id="env-content">
+    <div class="env-address" id="env-address" style="display:none"></div>
+    <div class="env-seal-wrap" id="env-seal-wrap">
+      <svg width="88" height="88" viewBox="0 0 80 80" fill="none">
+        <circle class="seal-fill" cx="40" cy="40" r="38" fill="#C4714A"/>
+        <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="40" y="49" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-style="italic" font-weight="600" font-size="29" letter-spacing="-1" fill="rgba(255,255,255,0.92)">NN</text>
+      </svg>
+    </div>
+    <div class="env-hint">tap the seal to open</div>
+  </div>
+</div>
+
+<!-- ══ PAGE ══ -->
+<div id="page" style="opacity:0;transition:opacity 0.7s ease">
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <svg class="corner" style="top:18px;left:18px" width="70" height="70" viewBox="0 0 72 72" fill="none">
+    <path d="M8 64 Q8 8 64 8" stroke="#C9A84C" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>
+    <circle cx="8" cy="64" r="3" fill="#C9A84C"/><circle cx="64" cy="8" r="3" fill="#C9A84C"/>
+  </svg>
+  <svg class="corner" style="top:18px;right:18px;transform:scaleX(-1)" width="70" height="70" viewBox="0 0 72 72" fill="none">
+    <path d="M8 64 Q8 8 64 8" stroke="#C9A84C" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>
+    <circle cx="8" cy="64" r="3" fill="#C9A84C"/><circle cx="64" cy="8" r="3" fill="#C9A84C"/>
+  </svg>
+  <!-- morning birds doodle -->
+  <svg class="birds-deco" viewBox="0 0 320 55" fill="none">
+    <path d="M28 28 Q34 20 40 28" stroke="#1E1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M40 28 Q44 22 48 28" stroke="#1E1810" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    <path d="M96 20 Q103 12 110 20" stroke="#1E1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M156 32 Q164 23 172 32" stroke="#1E1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M172 32 Q178 25 184 32" stroke="#1E1810" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M236 16 Q244 8 252 16" stroke="#1E1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M292 26 Q299 18 306 26" stroke="#1E1810" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M306 26 Q311 20 316 26" stroke="#1E1810" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  </svg>
+
+  <div class="hero-badge" id="hero-badge">The wedding of</div>
+  <!-- Doodle_1.png: couple standing together in wedding attire -->
+  <div class="hero-art" id="hero-art">
+    <img src="Web_assets/Doodle_1.png" alt="Naseef & Nisrin"/>
+  </div>
+  <div class="hero-names">Naseef <span class="amp">&amp;</span> Nisrin</div>
+  <div class="hero-tagline">request the honour of your presence</div>
+  <div class="scroll-hint"><span>scroll to begin</span><div class="sarr"></div></div>
+</section>
+
+<!-- ── NIKAH SECTION (hidden for ?e=r, shown for ?e=n and ?e=b) ── -->
+<section id="nikah">
+  <div class="nik-bism reveal">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <div class="nik-hands reveal d1">
+    <img src="Web_assets/Holding_hands.png" alt="Two hands joining in Nikah"/>
+  </div>
+  <div class="nik-title reveal d2">The <em>Nikah</em></div>
+  <div class="nik-sub reveal d2">of Naseef &amp; Nisrin</div>
+  <div class="nik-divider reveal d3"></div>
+  <div class="nik-details reveal d3">
+    <div class="nik-detail"><em>18 October 2026</em> · 11:30 AM</div>
+    <div class="nik-detail">Durbar Convention Center
+      <span class="nik-place-sub">Kodungallur</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── NIKAH VENUE CARD (shown for ?e=n and ?e=b) ── -->
+<section id="nikah-location">
+  <div style="max-width:860px;margin:0 auto">
+    <a class="nloc-card reveal" href="https://maps.app.goo.gl/dug34pPL26uCt4DY9" target="_blank" rel="noopener">
+      <div class="nloc-map-area">
+        <svg width="100%" height="150" viewBox="0 0 480 150" preserveAspectRatio="xMidYMid slice" fill="none">
+          <rect width="480" height="150" fill="#B8D4BA"/>
+          <path d="M0 75 H480" stroke="#FAF7F2" stroke-width="13" opacity="0.55"/>
+          <path d="M240 0 V150" stroke="#FAF7F2" stroke-width="9" opacity="0.45"/>
+          <path d="M95 0 L80 150" stroke="#FAF7F2" stroke-width="5" opacity="0.3"/>
+          <path d="M365 0 L350 150" stroke="#FAF7F2" stroke-width="5" opacity="0.3"/>
+          <rect x="138" y="18" width="88" height="44" rx="7" fill="#7A9E7E" opacity="0.32"/>
+          <rect x="265" y="88" width="76" height="44" rx="7" fill="#7A9E7E" opacity="0.26"/>
+          <circle cx="55" cy="38" r="11" fill="#4E7852" opacity="0.4"/>
+          <circle cx="416" cy="118" r="10" fill="#4E7852" opacity="0.4"/>
+          <line x1="0" y1="75" x2="480" y2="75" stroke="#E8DED0" stroke-width="1.3" stroke-dasharray="11 9" opacity="0.6"/>
+          <g transform="translate(234,42)">
+            <circle cx="0" cy="0" r="19" fill="#C4714A"/>
+            <circle cx="0" cy="0" r="7" fill="white"/>
+            <line x1="0" y1="19" x2="0" y2="30" stroke="#C4714A" stroke-width="3.5" stroke-linecap="round"/>
+          </g>
+          <text x="234" y="20" font-family="Caveat,cursive" font-size="12" fill="#1E1810" text-anchor="middle" font-weight="600">Durbar Convention Center</text>
+        </svg>
+      </div>
+      <div class="nloc-body">
+        <div class="nloc-name">Durbar Convention Center</div>
+        <div class="nloc-addr">Kodungallur</div>
+        <div class="nloc-directions">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Get Directions
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── NIKAH BRIEF MENTION (shown only for ?e=r guests) ── -->
+<section id="nikah-mention">
+  <div class="nik-mention-inner reveal">
+    <div class="nik-mention-eyebrow">also joining us for</div>
+    <div class="nik-mention-title">The <em>Nikah</em></div>
+    <div class="nik-mention-detail">
+      18 October 2026 · 11:30 AM<br>
+      Durbar Convention Center, Kodungallur
+    </div>
+  </div>
+</section>
+
+<!-- ── VENUE SCRUB ── -->
+<section id="venue-section">
+  <div class="venue-sticky" id="venue-sticky">
+    <canvas id="venue-canvas"></canvas>
+    <div class="venue-vignette"></div>
+  </div>
+</section>
+
+<!-- ── LAST FRAME PLACEHOLDER (shown while device-correct frames are loading) ── -->
+<div id="last-frame-section">
+  <img id="last-frame-img" src="" alt=""/>
+</div>
+
+<!-- ── LOCATION ── -->
+<section id="location">
+  <div style="max-width:860px;margin:0 auto">
+    <h2 class="loc-t reveal">The <em>Venue</em></h2>
+    <div class="loc-card reveal d2">
+      <div class="map-area">
+        <svg width="100%" height="150" viewBox="0 0 480 150" preserveAspectRatio="xMidYMid slice" fill="none">
+          <rect width="480" height="150" fill="#B8D4BA"/>
+          <path d="M0 75 H480" stroke="#FAF7F2" stroke-width="13" opacity="0.55"/>
+          <path d="M240 0 V150" stroke="#FAF7F2" stroke-width="9" opacity="0.45"/>
+          <path d="M95 0 L80 150" stroke="#FAF7F2" stroke-width="5" opacity="0.3"/>
+          <path d="M365 0 L350 150" stroke="#FAF7F2" stroke-width="5" opacity="0.3"/>
+          <rect x="138" y="18" width="88" height="44" rx="7" fill="#7A9E7E" opacity="0.32"/>
+          <rect x="265" y="88" width="76" height="44" rx="7" fill="#7A9E7E" opacity="0.26"/>
+          <circle cx="55"  cy="38" r="11" fill="#4E7852" opacity="0.4"/>
+          <circle cx="416" cy="118" r="10" fill="#4E7852" opacity="0.4"/>
+          <line x1="0" y1="75" x2="480" y2="75" stroke="#E8DED0" stroke-width="1.3" stroke-dasharray="11 9" opacity="0.6"/>
+          <g transform="translate(234,42)">
+            <circle cx="0" cy="0" r="19" fill="#C4714A"/>
+            <circle cx="0" cy="0" r="7" fill="white"/>
+            <line x1="0" y1="19" x2="0" y2="30" stroke="#C4714A" stroke-width="3.5" stroke-linecap="round"/>
+          </g>
+          <text x="234" y="20" font-family="Caveat,cursive" font-size="12" fill="#1E1810" text-anchor="middle" font-weight="600">Farm Rock Garden</text>
+        </svg>
+      </div>
+      <div class="loc-body">
+        <div class="loc-name">Farm Rock Garden</div>
+        <div class="loc-addr">Farook College Road, Chungam</div>
+        <div class="btn-row">
+          <a href="https://maps.google.com/?q=Farm+Rock+Garden+Farook+College+Road+Chungam+Kozhikode+Kerala"
+            target="_blank" rel="noopener" class="btn btn-p">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Get Directions
+          </a>
+          <button class="btn btn-s" id="cal-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Save to Calendar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="countdown">
+  <div class="cd-label reveal">Counting down</div>
+  <div class="cd-grid reveal d1">
+    <div class="cd-unit">
+      <div class="cd-box"><span class="cd-num" id="cd-d">--</span></div>
+      <span class="cd-name">Days</span>
+    </div>
+    <div class="cd-unit">
+      <div class="cd-box"><span class="cd-num" id="cd-h">--</span></div>
+      <span class="cd-name">Hours</span>
+    </div>
+    <div class="cd-unit">
+      <div class="cd-box"><span class="cd-num" id="cd-m">--</span></div>
+      <span class="cd-name">Minutes</span>
+    </div>
+    <div class="cd-unit">
+      <div class="cd-box"><span class="cd-num" id="cd-s">--</span></div>
+      <span class="cd-name">Seconds</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── LETTER ── -->
+<section id="letter">
+  <div style="max-width:580px;margin:0 auto;text-align:center">
+    <div class="letter-eye reveal">a note from the couple</div>
+    <div class="letter-card reveal d1">
+      <div class="letter-text">
+        <p id="letter-salutation">Hai,</p>
+        <p>If this invitation found its way to you, it is because you matter to us more than words can say.</p>
+        <p>Naseef and Nisrin's journey to this day has been quiet, full of faith, and full of love. On October 19th, we open the doors of Farm Rock Garden to celebrate not just a wedding, but the beginning of a beautiful life together.</p>
+        <p>We don't ask for much. Just your presence, your duas, and your smile.</p>
+        <p>See you there, insha'Allah.</p>
+      </div>
+      <div class="letter-sig">— Naseef &amp; Nisrin 🤍</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PHOTO BOOTH ── -->
+<section id="photobooth">
+  <h2 class="booth-title reveal">Take a photo <em>with us!</em></h2>
+  <!-- Live camera view (shown when camera granted) -->
+  <div class="booth-live" id="booth-live">
+    <div class="booth-frame-wrap" id="booth-frame-wrap">
+      <video class="booth-video-el" id="booth-video" autoplay playsinline muted></video>
+      <img class="booth-frame-img" src="Web_assets/Wed_polaroid_frame.png" alt="Photo frame" id="booth-frame-img"/>
+    </div>
+    <canvas id="booth-canvas"></canvas>
+    <div class="booth-actions">
+      <button class="btn btn-p" id="booth-snap">📸 Snap</button>
+      <a class="btn btn-s" id="booth-dl" style="display:none" download="naseef-nisrin-vip.png">⬇ Save Photo</a>
+    </div>
+  </div>
+  <!-- Fallback (shown before camera granted or if denied) -->
+  <div class="booth-fallback" id="booth-fallback">
+    <img src="Web_assets/Doodle_camera.png" alt="Naseef & Nisrin holding a camera"/>
+    <button class="btn btn-p" id="booth-start">📸 Open Camera</button>
+  </div>
+</section>
+
+<!-- ── WISHBOARD ── -->
+<section id="wishboard">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="wb-header">
+      <h2 class="wb-title reveal">Blessings <em>Board</em></h2>
+    </div>
+    <div class="corkboard reveal d1">
+      <div class="notes-grid" id="notes-grid">
+        <!-- Hardcoded pinned family notes -->
+        <div class="note note-pinned">
+          <div class="note-from">Naseemanaf</div>
+          <div class="note-text">Our duas have been with you every step of the way. May Allah bless you both with a home full of love, laughter, and His endless mercy. — Umma &amp; Uppa 🤍</div>
+        </div>
+        <div class="note note-pinned">
+          <div class="note-from">Naeema &amp; Irshad</div>
+          <div class="note-text">Watching you both begin this beautiful chapter together is a joy beyond words. Wishing you a lifetime of barakah and togetherness. 🌸</div>
+        </div>
+        <div class="note note-pinned">
+          <div class="note-from">Misbah</div>
+          <div class="note-text">Big day, little bro. May Allah bless you and Nisrin with all the goodness in this world and the next. So proud of you. 🌟</div>
+        </div>
+      </div>
+      <div class="show-more-row">
+        <button id="show-more-btn">Show more wishes ↓</button>
+      </div>
+    </div>
+    <div class="wb-eye reveal d2">Leave a wish</div>
+    <div class="wish-form reveal d3">
+      <label for="w-name">Your name</label>
+      <input type="text" id="w-name" autocomplete="off" maxlength="40"/>
+      <label for="w-text">Your dua or wish <span class="w-char" id="w-char">160</span></label>
+      <textarea id="w-text" maxlength="160"></textarea>
+      <div class="w-row">
+        <button class="btn btn-p" id="w-submit" style="background:var(--terra-d)">
+          <span id="w-lbl">Pin it 📌</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLOSING ── -->
+<section id="closing">
+  <div style="position:relative;z-index:2;text-align:center">
+    <div class="cl-see reveal">We'll see you there, insha'Allah.</div>
+    <span class="cl-heart reveal d1">🤍</span>
+    <div class="cl-names reveal d2">
+      <span class="small">with love,</span>
+      Naseef &amp; Nisrin
+    </div>
+    <!-- Doodle_2.png: couple walking away, seen from behind -->
+    <div class="cl-art reveal d3" id="closing-art">
+      <img src="Web_assets/Doodle_2.png" alt="Naseef & Nisrin walking together"/>
+    </div>
+    <div class="cl-arabic reveal d4">بَارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</div>
+    <div class="cl-trans reveal d4">May Allah bless you both and unite you in goodness</div>
+  </div>
+</section>
+
+</div><!-- /#page -->
+
+<!-- ══ JAVASCRIPT ══ -->
+<script>
+/* ── FIREBASE ────────────────────────── */
+const FB_CONFIG={
+  apiKey:"AIzaSyBwpJYHSbbFmRIAq7yDSoLsSBBaG8_X4SE",
+  authDomain:"nn-wedding-17ffc.firebaseapp.com",
+  projectId:"nn-wedding-17ffc",
+  storageBucket:"nn-wedding-17ffc.firebasestorage.app",
+  messagingSenderId:"392137581529",
+  appId:"1:392137581529:web:c8234b2deb1484f17b2fc8"
+};
+let db=null,fbReady=false;
+try{firebase.initializeApp(FB_CONFIG);db=firebase.firestore();fbReady=true}
+catch(e){console.warn('Firebase not configured:',e.message)}
+
+/* ── HELPERS ─────────────────────────── */
+const $=id=>document.getElementById(id);
+function pad(n){return String(n).padStart(2,'0')}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+const toastEl=$('toast');let toastT;
+function toast(msg,dur=3200){
+  clearTimeout(toastT);toastEl.textContent=msg;toastEl.classList.add('show');
+  toastT=setTimeout(()=>toastEl.classList.remove('show'),dur);
+}
+
+/* ── GUEST NAME PERSONALISATION ─────── */
+const guestName=(()=>{
+  const raw=new URLSearchParams(window.location.search).get('to')||'';
+  return raw.trim();
+})();
+
+/* ── EVENT VERSION ───────────────────── */
+// e=r → reception only, e=n → nikah only, e=b or none → both
+const eventParam=(new URLSearchParams(window.location.search).get('e')||'b').toLowerCase();
+const isReceptionOnly = eventParam==='r';
+const isNikahOnly     = eventParam==='n';
+const isBoth          = !isReceptionOnly && !isNikahOnly;
+
+(function applyEventVersion(){
+  // Sections that exist in all versions
+  // nikah full section: hidden for reception-only
+  const nikahSec      = document.getElementById('nikah');
+  // nikah venue card: hidden for reception-only
+  const nikahLoc      = document.getElementById('nikah-location');
+  // nikah brief mention: only shown for reception-only
+  const nikahMention  = document.getElementById('nikah-mention');
+
+  function hide(el){ if(el) el.style.display='none'; }
+  function show(el,display){ if(el) el.style.display=display||'block'; }
+
+  if(isReceptionOnly){
+    hide(nikahSec);
+    hide(nikahLoc);
+    show(nikahMention);
+  } else {
+    // nikah and both
+    show(nikahSec);
+    show(nikahLoc);
+    hide(nikahMention);
+  }
+
+  // Countdown target
+  // Nikah-only and both → Oct 18 11:30am IST
+  // Reception-only      → Oct 19 4pm IST
+  window.__countdownTarget = isReceptionOnly
+    ? new Date('2026-10-19T16:00:00+05:30')
+    : new Date('2026-10-18T11:30:00+05:30');
+
+  // Calendar save mode
+  // b → save both events, n → nikah only, r → reception only
+  window.__calendarMode = isNikahOnly ? 'nikah' : isReceptionOnly ? 'reception' : 'both';
+})();
+
+// Envelope address line — only shown if name provided
+if(guestName){
+  const addr=$('env-address');
+  if(addr){
+    addr.innerHTML='To <strong>'+esc(guestName)+'</strong>';
+    addr.style.display='block';
+  }
+}
+
+// Hero badge — "Dear Name, the wedding of" or default "The wedding of"
+(()=>{
+  const badge=$('hero-badge');
+  if(!badge) return;
+  if(guestName){
+    badge.innerHTML='Dear <strong>'+esc(guestName)+'</strong>, the wedding of';
+  }
+})();
+
+// Letter salutation — "Dear Name," or default "Hai,"
+(()=>{
+  const sal=$('letter-salutation');
+  if(!sal) return;
+  sal.textContent = guestName ? 'Dear '+guestName+',' : 'Hai,';
+})();
+
+/* ── SCROLL LOCK (until seal is tapped) ── */
+document.body.classList.add('scroll-locked');
+
+/* ── PETALS ──────────────────────────── */
+(function(){
+  const colors=['#C4714A','#7A9E7E','#C9A84C','#E8A07D','#B8D4BA','#E8D48C'];
+  const cont=$('petals');
+  for(let i=0;i<13;i++){
+    const el=document.createElement('div');
+    el.className='petal';
+    const sz=6+Math.random()*9;
+    el.style.cssText=`width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      background:${colors[i%colors.length]};
+      opacity:0;
+      animation-duration:${11+Math.random()*13}s;
+      animation-delay:${Math.random()*-20}s`;
+    cont.appendChild(el);
+  }
+})();
+
+/* ── CURSOR TRAIL ────────────────────── */
+const dot=$('dot'),cvs=$('tcanvas'),ctx2=cvs.getContext('2d');
+let parts=[],mx=-200,my=-200;
+function resizeCvs(){cvs.width=innerWidth;cvs.height=innerHeight}
+resizeCvs();addEventListener('resize',resizeCvs);
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';
+  if(Math.random()>0.42) parts.push({x:mx,y:my,
+    vx:(Math.random()-.5)*1.8,vy:(Math.random()-.5)*1.8-.5,
+    life:1,decay:Math.random()*.035+.018,size:Math.random()*5+2,
+    color:Math.random()>.5?'#C4714A':'#C9A84C',sym:Math.random()>.55?'♥':'✦'});
+});
+(function loop(){
+  ctx2.clearRect(0,0,cvs.width,cvs.height);
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{
+    ctx2.save();ctx2.globalAlpha=p.life;ctx2.fillStyle=p.color;
+    ctx2.font=`${p.size*2.8}px serif`;ctx2.fillText(p.sym,p.x-p.size,p.y+p.size);ctx2.restore();
+    p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;p.size*=.97;
+  });
+  requestAnimationFrame(loop);
+})();
+
+/* ── ENVELOPE ────────────────────────── */
+const envOverlay=$('envelope-overlay')||document.createElement('div');
+// re-select using proper IDs
+const envSealWrap=$('env-seal-wrap');
+const envTopH=$('env-top');
+const envBotH=$('env-bot');
+const envContent=$('env-content');
+const page=$('page');
+let opened=false;
+
+if(envSealWrap) envSealWrap.addEventListener('click',openEnvelope);
+// Also allow clicking anywhere on the overlay (outside seal)
+document.getElementById('env-overlay').addEventListener('click',openEnvelope);
+
+function openEnvelope(){
+  if(opened) return;
+  opened=true;
+  // Crack seal
+  const sealWrap=document.querySelector('.env-seal-wrap');
+  if(sealWrap) sealWrap.closest('svg')||sealWrap.querySelector('svg');
+  document.querySelector('#env-seal-wrap svg').classList.add('cracked');
+  // Start the music right on this tap — it's the user gesture that unlocks audio
+  setupAudio();
+  if(audioCtx){
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    if(!musicPlaying){
+      musicPlaying=true;
+      musicBtn.classList.add('on');
+      masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGain.gain.setValueAtTime(0.22,audioCtx.currentTime);
+      playMusicLoop();
+    }
+  }
+  setTimeout(()=>{
+    envTopH.classList.add('open');
+    envBotH.classList.add('open');
+  },320);
+  setTimeout(()=>{
+    if(envContent) envContent.classList.add('fade');
+  },600);
+  setTimeout(()=>{
+    const ov=document.getElementById('env-overlay');
+    ov.classList.add('gone');
+    page.style.opacity='1';
+    $('music-btn').style.display='flex';
+    // Unlock scroll now that the envelope has opened
+    document.body.classList.remove('scroll-locked');
+    // Pre-fill wish form name if guest name was provided
+    if(guestName){
+      const wName=$('w-name');
+      if(wName && !wName.value) wName.value=guestName;
+    }
+  },1050);
+  setTimeout(()=>{
+    const ov=document.getElementById('env-overlay');
+    if(ov) ov.style.display='none';
+  },1900);
+}
+
+/* ── MUSIC (gentle piano via Web Audio) ── */
+let audioCtx=null,musicPlaying=false,musicLoopTimer=null;
+const musicBtn=$('music-btn');
+
+function initAudioCtx(){
+  if(audioCtx) return;
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC) return;
+  audioCtx=new AC();
+}
+
+function createReverb(ctx){
+  const conv=ctx.createConvolver();
+  const len=ctx.sampleRate*2.8,imp=ctx.createBuffer(2,len,ctx.sampleRate);
+  for(let c=0;c<2;c++){const d=imp.getChannelData(c);for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2);}
+  conv.buffer=imp;return conv;
+}
+
+let masterGain=null,reverbNode=null;
+function setupAudio(){
+  if(masterGain) return;
+  initAudioCtx();
+  if(!audioCtx) return;
+  masterGain=audioCtx.createGain();masterGain.gain.value=0.22;
+  reverbNode=createReverb(audioCtx);
+  reverbNode.connect(masterGain);masterGain.connect(audioCtx.destination);
+}
+
+function sineNote(freq,start,dur,vol){
+  if(!audioCtx||!masterGain) return;
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type='sine';o.frequency.value=freq;
+  g.gain.setValueAtTime(0,start);
+  g.gain.linearRampToValueAtTime(vol,start+Math.min(0.5,dur*0.25));
+  g.gain.setValueAtTime(vol,start+dur-Math.min(0.8,dur*0.3));
+  g.gain.linearRampToValueAtTime(0,start+dur);
+  o.connect(g);g.connect(reverbNode);g.connect(masterGain);
+  o.start(start);o.stop(start+dur+0.1);
+}
+
+function playMusicLoop(){
+  if(!musicPlaying||!audioCtx) return;
+  const t=audioCtx.currentTime+0.05;
+  // Gentle Am → F → C → G progression, 4s each = 16s loop
+  // Am: A3(220) C4(261.6) E4(329.6)
+  // F:  F3(174.6) A3(220) C4(261.6)
+  // C:  C3(130.8) E3(164.8) G3(196)
+  // G:  G3(196)   B3(246.9) D4(293.7)
+  const chords=[[220,261.63,329.63],[174.61,220,261.63],[130.81,164.81,196],[196,246.94,293.66]];
+  chords.forEach((ch,ci)=>{
+    ch.forEach(f=>sineNote(f,t+ci*4,4.6,0.022));
+  });
+  // Soft melody: A4 C5 E5 C5 A4 G4 F4 E4
+  const mel=[440,523.25,659.25,523.25,440,392,349.23,329.63];
+  mel.forEach((f,i)=>sineNote(f,t+i*2,2.3,0.032));
+  musicLoopTimer=setTimeout(playMusicLoop,15700);
+}
+
+musicBtn.addEventListener('click',()=>{
+  setupAudio();
+  if(!audioCtx) return;
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  musicPlaying=!musicPlaying;
+  musicBtn.classList.toggle('on',musicPlaying);
+  if(musicPlaying){
+    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+    masterGain.gain.setValueAtTime(0.22,audioCtx.currentTime);
+    playMusicLoop();
+  }else{
+    clearTimeout(musicLoopTimer);
+    masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.4);
+  }
+});
+
+/* ── SCROLL REVEAL ───────────────────── */
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible')});
+},{threshold:0.13});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ── TIME OF DAY ─────────────────────── */
+const skyEl=$('sky-bg');
+const SKY=[
+  {t:0,   c:[190,222,245]},
+  {t:0.18,c:[248,195,110]},
+  {t:0.38,c:[222,128,74]},
+  {t:0.58,c:[120,80,150]},
+  {t:0.75,c:[28,48,88]},
+  {t:1.0, c:[10,18,42]}
+];
+function lerp(a,b,t){return a+(b-a)*t}
+function skyColor(p){
+  let s=SKY[0],e=SKY[SKY.length-1];
+  for(let i=0;i<SKY.length-1;i++){if(p>=SKY[i].t&&p<=SKY[i+1].t){s=SKY[i];e=SKY[i+1];break;}}
+  const lp=(p-s.t)/Math.max(0.001,e.t-s.t);
+  return `rgb(${Math.round(lerp(s.c[0],e.c[0],lp))},${Math.round(lerp(s.c[1],e.c[1],lp))},${Math.round(lerp(s.c[2],e.c[2],lp))})`;
+}
+function getPageProg(){
+  const st=pageYOffset||document.documentElement.scrollTop;
+  return Math.max(0,Math.min(1,st/Math.max(1,document.body.scrollHeight-innerHeight)));
+}
+skyEl.style.background=`linear-gradient(180deg,rgb(190,222,245) 0%,transparent 100%)`;
+addEventListener('scroll',()=>{
+  const p=getPageProg();
+  skyEl.style.background=`linear-gradient(180deg,${skyColor(p)} 0%,transparent 100%)`;
+},{passive:true});
+
+/* ── VENUE SCRUB (image-sequence, device-aware) ─────── */
+(function(){
+  // ── Device detection ─────────────────────────────
+  const isMobile = window.matchMedia('(max-width:768px)').matches;
+  const isNikahGuest = (new URLSearchParams(window.location.search).get('e')||'').toLowerCase()==='n';
+
+  // For nikah-only guests, stop scrub early before reception details appear
+  const TOTAL_FRAMES = isMobile ? 250 : 360;
+  const STOP_AT      = isNikahGuest ? (isMobile ? 217 : 291) : TOTAL_FRAMES;
+  const TOTAL        = STOP_AT;
+  const STEP         = 1;
+  const PAD          = 3;
+  const FRAME_PATH   = isMobile ? 'Web_assets/Frames_4/' : 'Web_assets/Frames_3/';
+  const PLACEHOLDER  = isMobile
+    ? 'Web_assets/last_frame_port.webp'
+    : 'Web_assets/last_frame.webp';
+
+  // ── Element refs ──────────────────────────────────
+  const section  = $('venue-section');
+  const canvas   = $('venue-canvas');
+  const ctx      = canvas.getContext('2d');
+  const lastSec  = $('last-frame-section');
+  const lastImg  = $('last-frame-img');
+
+  // Adjust section scroll height proportionally to frame count
+  const baseHeightVH = isMobile ? 400 : 800;
+  const ratio = TOTAL / TOTAL_FRAMES;
+  section.style.height = Math.round(baseHeightVH * ratio) + 'vh';
+
+  // Set the correct placeholder image immediately (before any frames load)
+  lastImg.src = PLACEHOLDER;
+
+  // ── State ─────────────────────────────────────────
+  const images = new Array(TOTAL);
+  let loadedCount  = 0;
+  let ready        = false;
+  let currentFrame = 1;
+
+  // ── Helpers ───────────────────────────────────────
+  function pad(n){ return String(n).padStart(PAD,'0'); }
+
+  // Cover-fit draw: always fills the canvas without letterboxing
+  function fitAndDraw(img){
+    if(!img || !img.naturalWidth) return;
+    const dpr  = Math.min(window.devicePixelRatio||1, 2);
+    const cw   = canvas.clientWidth, ch = canvas.clientHeight;
+    const wantW = Math.round(cw*dpr), wantH = Math.round(ch*dpr);
+    if(canvas.width!==wantW || canvas.height!==wantH){
+      canvas.width=wantW; canvas.height=wantH;
+    }
+    const iw=img.naturalWidth, ih=img.naturalHeight;
+    const scale=Math.max(canvas.width/iw, canvas.height/ih);
+    const dw=iw*scale, dh=ih*scale;
+    const dx=(canvas.width-dw)/2, dy=(canvas.height-dh)/2;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img, dx, dy, dw, dh);
+  }
+
+  // ── Preload all frames ────────────────────────────
+  function preload(){
+    for(let i=1;i<=TOTAL;i++){
+      const img=new Image();
+      img.onload=img.onerror=function(){
+        loadedCount++;
+        if(loadedCount===TOTAL) onAllLoaded();
+      };
+      img.src=FRAME_PATH+pad(i)+'.webp';
+      images[i-1]=img;
+    }
+  }
+
+  function onAllLoaded(){
+    ready=true;
+    // Swap visibility: hide placeholder, reveal scrub section
+    lastSec.classList.add('hidden');
+    section.classList.add('visible');
+    // Draw whichever frame the current scroll position calls for
+    fitAndDraw(images[currentFrame-1]);
+  }
+
+  // ── Scroll scrub ──────────────────────────────────
+  function getProgress(){
+    const rect=section.getBoundingClientRect();
+    const total=section.offsetHeight-window.innerHeight;
+    if(total<=0) return 0;
+    return Math.max(0,Math.min(1,-rect.top/total));
+  }
+
+  let ticking=false;
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+
+  function update(){
+    ticking=false;
+    if(!ready) return;
+    const prog=getProgress();
+    let idx=Math.min(TOTAL,Math.max(1,Math.round(prog*(TOTAL-1))+1));
+    if(STEP>1) idx=Math.max(1,Math.round(idx/STEP)*STEP);
+    if(idx!==currentFrame){
+      currentFrame=idx;
+      fitAndDraw(images[currentFrame-1]);
+    }
+  }
+
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',()=>{ if(ready) fitAndDraw(images[currentFrame-1]); });
+
+  preload();
+})();
+
+/* ── COUNTDOWN ───────────────────────── */
+const TARGET = window.__countdownTarget || new Date('2026-10-18T11:30:00+05:30');
+function updateCD(){
+  const diff=TARGET-Date.now();
+  if(diff<=0){$('cd-d').textContent=$('cd-h').textContent=$('cd-m').textContent='00';$('cd-s').textContent='🎉';return}
+  $('cd-d').textContent=pad(Math.floor(diff/86400000));
+  $('cd-h').textContent=pad(Math.floor(diff%86400000/3600000));
+  $('cd-m').textContent=pad(Math.floor(diff%3600000/60000));
+  $('cd-s').textContent=pad(Math.floor(diff%60000/1000));
+}
+updateCD();setInterval(updateCD,1000);
+
+/* ── SAVE TO CALENDAR ────────────────── */
+$('cal-btn').addEventListener('click',()=>{
+  const ua=navigator.userAgent||'';
+  const isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const isAndroid=/Android/.test(ua);
+  const mode = window.__calendarMode || 'both';
+
+  // Event definitions
+  const nikahEvent={
+    title:'Naseef & Nisrin — The Nikah 🤍',
+    details:'You are warmly invited to the Nikah of Naseef & Nisrin.\nDurbar Convention Center, Kodungallur · 11:30 AM',
+    location:'Durbar Convention Center, Kodungallur, Kerala',
+    start:'20261018T060000Z', end:'20261018T093000Z',
+    startIST:'20261018T113000', endIST:'20261018T140000'
+  };
+  const recepEvent={
+    title:'Naseef & Nisrin — Wedding Reception 🤍',
+    details:'You are warmly invited to the wedding reception of Naseef & Nisrin.\nFarm Rock Garden, Farook College Road, Chungam, Kozhikode · 4:00 PM',
+    location:'Farm Rock Garden, Farook College Road, Chungam, Kozhikode, Kerala',
+    start:'20261019T103000Z', end:'20261019T163000Z',
+    startIST:'20261019T160000', endIST:'20261019T220000'
+  };
+
+  function makeVEVENT(ev){
+    return ['BEGIN:VEVENT',
+      'DTSTART;TZID=Asia/Kolkata:'+ev.startIST,
+      'DTEND;TZID=Asia/Kolkata:'+ev.endIST,
+      'SUMMARY:'+ev.title,
+      'DESCRIPTION:'+ev.details.replace(/\n/g,'\\n').replace(/,/g,'\\,'),
+      'LOCATION:'+ev.location.replace(/,/g,'\\,'),
+      'STATUS:CONFIRMED',
+      'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Reminder 🤍','TRIGGER:-PT1H','END:VALARM',
+      'END:VEVENT'].join('\r\n');
+  }
+
+  // Android — Google Calendar deep link
+  if(isAndroid){
+    let ev = mode==='nikah' ? nikahEvent : recepEvent;
+    if(mode==='both'){
+      // For both, open nikah first; reception can be added separately
+      // (Google Calendar link only supports one event at a time)
+      ev = nikahEvent;
+    }
+    const url='https://calendar.google.com/calendar/render?action=TEMPLATE'
+      +'&text='+encodeURIComponent(ev.title)
+      +'&dates='+ev.start+'/'+ev.end
+      +'&details='+encodeURIComponent(ev.details)
+      +'&location='+encodeURIComponent(ev.location);
+    window.location.href=url;
+    if(mode==='both'){
+      setTimeout(()=>{
+        const url2='https://calendar.google.com/calendar/render?action=TEMPLATE'
+          +'&text='+encodeURIComponent(recepEvent.title)
+          +'&dates='+recepEvent.start+'/'+recepEvent.end
+          +'&details='+encodeURIComponent(recepEvent.details)
+          +'&location='+encodeURIComponent(recepEvent.location);
+        window.open(url2,'_blank');
+      },1500);
+    }
+    return;
+  }
+
+  // iOS and Desktop — .ics file
+  const events = mode==='both'
+    ? makeVEVENT(nikahEvent)+'\r\n'+makeVEVENT(recepEvent)
+    : mode==='nikah' ? makeVEVENT(nikahEvent) : makeVEVENT(recepEvent);
+
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0',
+    'PRODID:-//Naseef & Nisrin Wedding//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    events,
+    'END:VCALENDAR'].join('\r\n');
+
+  if(isIOS){
+    window.location.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);
+  }else{
+    const b=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+    const u=URL.createObjectURL(b),a=document.createElement('a');
+    a.href=u;a.download='naseef-nisrin-wedding.ics';a.click();URL.revokeObjectURL(u);
+    toast('📅 Calendar invite downloaded!');
+  }
+});
+
+/* ── PHOTO BOOTH ─────────────────────── */
+const boothLive=$('booth-live'),boothFallback=$('booth-fallback');
+const boothVideo=$('booth-video'),boothSnap=$('booth-snap');
+const boothDl=$('booth-dl'),boothCanvas=$('booth-canvas');
+const boothFrameImg=$('booth-frame-img');
+let boothStream=null,frameLoaded=false;
+
+boothFrameImg.addEventListener('load',()=>{frameLoaded=true});
+if(boothFrameImg.complete && boothFrameImg.naturalWidth) frameLoaded=true;
+
+async function startCamera(){
+  try{
+    boothStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+    boothVideo.srcObject=boothStream;
+    boothFallback.style.display='none';
+    boothLive.style.display='block';
+    boothDl.style.display='none';
+    boothSnap.style.display='inline-flex';
+  }catch(e){
+    toast('Camera permission needed 📷 — please allow access and try again.');
+  }
+}
+
+$('booth-start').addEventListener('click',startCamera);
+
+boothSnap.addEventListener('click',()=>{
+  if(!boothStream) return;
+  const fw=boothFrameImg.naturalWidth||920;
+  const fh=boothFrameImg.naturalHeight||1200;
+  boothCanvas.width=fw; boothCanvas.height=fh;
+  const c=boothCanvas.getContext('2d');
+  c.clearRect(0,0,fw,fh);
+  // photo area within frame (percentages)
+  const pTop=fh*0.22,pLeft=fw*0.15,pW=fw*0.70,pH=fh*0.54;
+  // Draw camera frame into photo area (cover fill)
+  const vW=boothVideo.videoWidth||640,vH=boothVideo.videoHeight||480;
+  const vRatio=vW/vH,pRatio=pW/pH;
+  let sx,sy,sw,sh;
+  if(vRatio>pRatio){sh=vH;sw=sh*pRatio;sx=(vW-sw)/2;sy=0;}
+  else{sw=vW;sh=sw/pRatio;sx=0;sy=(vH-sh)/2;}
+  c.save();c.translate(pLeft+pW,pTop);c.scale(-1,1);
+  c.drawImage(boothVideo,sx,sy,sw,sh,0,0,pW,pH);
+  c.restore();
+  // Draw frame on top
+  if(frameLoaded) c.drawImage(boothFrameImg,0,0,fw,fh);
+  // Silently upload every snap to Cloudinary
+  (function(){
+    boothCanvas.toBlob(function(blob){
+      const fd = new FormData();
+      fd.append('file', blob, 'booth.png');
+      fd.append('upload_preset', 'wedding_booth');
+      fd.append('folder', 'wedding_booth');
+      fetch('https://api.cloudinary.com/v1_1/dyl1lenir/image/upload', {
+        method:'POST', body:fd
+      }).catch(function(){});
+    }, 'image/png');
+  })();
+  // End of upload snap code
+  // Telegram photo upload 
+  (function(){
+    boothCanvas.toBlob(function(blob){
+      const fd = new FormData();
+      fd.append('chat_id', '-1003853040787');
+      fd.append('photo', blob, 'booth.png');
+      fetch('https://api.telegram.org/bot8933615162:AAHsyGIVpMFRr990OssXTH4fbxBup4x3XN8/sendPhoto', {
+        method:'POST', body:fd
+      }).catch(function(){});
+    }, 'image/png');
+  })();
+  // End of telegram upload 
+  const url=boothCanvas.toDataURL('image/png');
+  boothDl.href=url;boothDl.style.display='inline-flex';
+  toast('📸 Looking great! Snap again or tap Save.');
+});
+
+/* ── WISHBOARD ───────────────────────── */
+const wName=$('w-name'),wText=$('w-text'),wSubmit=$('w-submit'),wLbl=$('w-lbl');
+const wChar=$('w-char'),notesGrid=$('notes-grid');
+const showMoreBtn=$('show-more-btn');
+const CHAR_LIMIT=160,PINNED=3,BATCH=9;
+let allWishes=[],shownCount=0;
+
+wText.addEventListener('input',()=>{
+  const rem=CHAR_LIMIT-wText.value.length;
+  wChar.textContent=rem;wChar.classList.toggle('warn',rem<20);
+});
+
+function makeNote(name,wish){
+  const d=document.createElement('div');
+  d.className='note';
+  d.innerHTML=`<div class="note-from">${esc(name)}</div><div class="note-text">${esc(wish)}</div>`;
+  return d;
+}
+function renderWishes(){
+  notesGrid.querySelectorAll('.note:not(.note-pinned)').forEach(n=>n.remove());
+  allWishes.slice(0,shownCount).forEach(w=>notesGrid.appendChild(makeNote(w.name,w.wish)));
+  if(allWishes.length>shownCount){
+    showMoreBtn.style.display='block';
+    showMoreBtn.textContent=`Show ${Math.min(BATCH,allWishes.length-shownCount)} more ↓`;
+  }else{showMoreBtn.style.display='none';}
+}
+showMoreBtn.addEventListener('click',()=>{
+  shownCount=Math.min(allWishes.length,shownCount+BATCH);renderWishes();
+});
+if(fbReady&&db){
+  db.collection('wishes').where('status','==','approved')
+    .orderBy('timestamp','desc').limit(100)
+    .onSnapshot(snap=>{
+      allWishes=[];snap.forEach(doc=>{const d=doc.data();allWishes.push({name:d.name,wish:d.wish})});
+      shownCount=Math.min(BATCH,allWishes.length);renderWishes();
+    },err=>console.warn('Firestore:',err));
+}
+wSubmit.addEventListener('click',async()=>{
+  const name=wName.value.trim(),wish=wText.value.trim();
+  if(!name||!wish){toast('Please fill in both fields 🌸');return}
+  if(wish.length>CHAR_LIMIT){toast(`Keep it under ${CHAR_LIMIT} characters 🌸`);return}
+  if(!fbReady||!db){toast('Firebase not configured yet!');return}
+  wLbl.textContent='Sending…';wSubmit.disabled=true;
+  try{
+    await db.collection('wishes').add({name,wish,status:'pending',
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    wName.value='';wText.value='';wChar.textContent=CHAR_LIMIT;
+    wLbl.textContent='Thankyou🤍';
+    toast('Your wish is in, will be pinned soon 🤍');
+    // Telegram notification
+    (function(){
+      const msg='🌸 New wish submitted!\n\nFrom: '+name+'\nWish: '+wish+'\n\nApprove 👉 https://naseef-pp.github.io/invitation/admin.html';
+      fetch('https://api.telegram.org/bot8933615162:AAHsyGIVpMFRr990OssXTH4fbxBup4x3XN8/sendMessage',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id:'-1003853040787',text:msg})
+      }).catch(function(){});
+    })();
+    // Telegram notification over
+    setTimeout(()=>{wLbl.textContent='Pin it 📌';wSubmit.disabled=false},3000);
+  }catch(e){
+    wLbl.textContent='Pin it 📌';wSubmit.disabled=false;
+    toast('Something went wrong. Try again 🌸');
+  }
+});
+
+/* ── CLOSING TAP ─────────────────────── */
+$('closing-art').addEventListener('click',()=>
+  toast('🤍 Their forever starts October 19 — see you there!'));
+</script>
+</body>
+</html>
