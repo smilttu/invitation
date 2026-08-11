@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Nisrin & Naseef — Wedding Invitation</title>
-<meta name="description" content="You are invited to the wedding of Nisrin & Naseef · October 2026 · Kozhikode"/>
+<title>Naseef & Nisrin — Wedding Invitation</title>
+<meta name="description" content="You are invited to the wedding of Naseef & Nisrin · October 2026 · Kozhikode"/>
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="Web_assets/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="Web_assets/favicon-32.png"/>
 <link rel="apple-touch-icon" sizes="180x180" href="Web_assets/apple-touch-icon.png"/>
 
 <!-- Open Graph (WhatsApp, Instagram, iMessage previews) -->
-<meta property="og:title" content="Nisrin & Naseef — Wedding Invitation"/>
-<meta property="og:description" content="You are warmly invited to the wedding of Nisrin & Naseef · October 19, 2026 · Farm Rock Garden, Chungam"/>
-<meta property="og:image" content="https://smilttu.github.io/invitation/Web_assets/og_image.jpg"/>
-<meta property="og:url" content="https://smilttu.github.io/invitation/"/>
+<meta property="og:title" content="Naseef & Nisrin — Wedding Invitation"/>
+<meta property="og:description" content="You are warmly invited to the wedding of Naseef & Nisrin · October 19, 2026 · Farm Rock Garden, Chungam"/>
+<meta property="og:image" content="https://naseef-pp.github.io/invitation/Web_assets/og_image.jpg"/>
+<meta property="og:url" content="https://naseef-pp.github.io/invitation/"/>
 <meta property="og:type" content="website"/>
 
 <!-- WhatsApp specifically uses this -->
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://smilttu.github.io/invitation/Web_assets/og_image.jpg"/>
+<meta name="twitter:image" content="https://naseef-pp.github.io/invitation/Web_assets/og_image.jpg"/>
   
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -227,7 +227,34 @@ body.scroll-locked{overflow:hidden;height:100vh}
 .nloc-directions{display:inline-flex;align-items:center;gap:6px;
   font-family:var(--fb);font-size:13px;color:var(--terra);font-weight:500}
 
-/* ── LIGHT NIKAH SECTION (for reception-only guests) ── */
+/* ── RECEPTION SECTION (both version only) ── */
+#reception{background:linear-gradient(170deg,#1A1E35 0%,#0E1225 100%);
+  padding:clamp(70px,12vw,120px) clamp(20px,5vw,60px);
+  text-align:center;position:relative;overflow:hidden;display:none}
+#reception::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 70%,rgba(201,168,76,0.1) 0%,transparent 65%);
+  pointer-events:none}
+.rec-invite{font-family:var(--fd);font-style:italic;font-weight:300;
+  font-size:clamp(15px,3vw,19px);letter-spacing:0.05em;
+  color:rgba(255,255,255,0.5);margin-bottom:36px;line-height:1.5;position:relative}
+.rec-doodle{margin:0 auto 44px;max-width:240px;position:relative}
+.rec-doodle img{width:100%;height:auto;display:block}
+.rec-title{font-family:var(--fd);font-weight:300;
+  font-size:clamp(46px,11vw,78px);color:rgba(255,255,255,0.92);
+  line-height:1.1;margin-bottom:12px;position:relative}
+.rec-title em{color:var(--gold-l);font-style:italic}
+.rec-sub{font-family:var(--fd);font-style:italic;
+  font-size:clamp(16px,3vw,22px);color:rgba(255,255,255,0.4);
+  margin-bottom:48px;position:relative}
+.rec-divider{width:1px;height:48px;background:rgba(255,255,255,0.15);
+  margin:0 auto 40px;position:relative}
+.rec-details{display:flex;flex-direction:column;gap:16px;
+  align-items:center;position:relative}
+.rec-detail{font-family:var(--fd);font-size:clamp(18px,4vw,26px);
+  color:rgba(255,255,255,0.7);font-weight:300}
+.rec-detail em{color:var(--gold-l);font-style:italic;font-weight:400}
+.rec-detail .rec-place-sub{font-size:clamp(14px,3vw,20px);
+  color:rgba(255,255,255,0.4);font-style:italic;display:block;margin-top:2px}
 #nikah-light{text-align:center;padding:clamp(60px,9vw,100px) clamp(20px,5vw,60px);
   background:rgba(250,247,242,0.94);position:relative;z-index:1}
 #nikah-light .nik-eyebrow{font-family:var(--fh);font-size:15px;color:var(--sage-d);
@@ -363,23 +390,34 @@ canvas#booth-canvas{display:none}
   opacity:0.55;text-align:right;margin-top:-10px;margin-bottom:12px}
 .w-char.warn{color:var(--terra)}
 .w-row{display:flex;justify-content:flex-end}
-/* corkboard */
-.corkboard{max-width:900px;margin:0 auto;
-  background:linear-gradient(135deg,#8B6914 0%,#A07820 30%,#8B6914 60%,#9A7218 100%);
+/* corkboard — fixed height, horizontally scrollable */
+.corkboard{background:linear-gradient(135deg,#8B6914 0%,#A07820 30%,#8B6914 60%,#9A7218 100%);
   border-radius:12px;padding:28px;
   box-shadow:0 8px 32px rgba(0,0,0,0.4),inset 0 0 40px rgba(0,0,0,0.15);
-  position:relative}
+  position:relative;
+  overflow-x:auto;overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;height:calc(100vh - 220px);
+  min-height:320px;max-height:520px}
+.corkboard::-webkit-scrollbar{display:none}
 .corkboard::before{content:'';position:absolute;inset:0;border-radius:12px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.6' fill='rgba(0,0,0,0.08)'/%3E%3Ccircle cx='3' cy='3' r='0.5' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E");
-  pointer-events:none}
+  pointer-events:none;z-index:0}
 .board-label{font-family:var(--fh);font-size:13px;color:rgba(255,255,255,0.55);
   letter-spacing:0.1em;text-transform:uppercase;text-align:center;
   margin-bottom:20px;position:relative;z-index:1}
-.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:16px;position:relative;z-index:1}
+/* notes flow in a two-row grid that extends horizontally */
+.notes-grid{display:grid;
+  grid-template-rows:1fr 1fr;
+  grid-auto-flow:column;
+  grid-auto-columns:180px;
+  gap:14px;
+  position:relative;z-index:1;
+  height:calc(100% - 40px)}
 .note{padding:18px 16px 14px;border-radius:2px;
   box-shadow:2px 2px 6px rgba(0,0,0,0.25);font-family:var(--fh);
-  animation:noteIn 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards}
+  animation:noteIn 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  overflow:hidden}
 .note-pinned{background:#FFFDE0;transform:rotate(-0.4deg) !important;
   border-top:3px solid var(--gold)}
 .note:nth-child(4n+1){background:#FFF8E0;transform:rotate(-1.2deg)}
@@ -387,13 +425,15 @@ canvas#booth-canvas{display:none}
 .note:nth-child(4n+3){background:#FDE8E0;transform:rotate(-0.6deg)}
 .note:nth-child(4n+4){background:#E8E8F8;transform:rotate(1.4deg)}
 .note-from{font-size:16px;color:var(--terra-d);font-weight:600;margin-bottom:6px}
-.note-text{font-size:14px;color:#3D2F20;line-height:1.55}
-.show-more-row{text-align:center;margin-top:22px;position:relative;z-index:1}
-#show-more-btn{background:rgba(255,255,255,0.15);color:white;
-  border:1px solid rgba(255,255,255,0.25);font-family:var(--fh);font-size:14px;
-  padding:10px 24px;border-radius:20px;cursor:pointer;
-  transition:all 0.2s;display:none}
-#show-more-btn:hover{background:rgba(255,255,255,0.25)}
+.note-text{font-size:13px;color:#3D2F20;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+/* swipe hint — fades in on mobile, fades out after first swipe */
+.swipe-hint{position:absolute;right:16px;bottom:12px;z-index:2;
+  font-family:var(--fh);font-size:12px;color:rgba(255,255,255,0.5);
+  display:flex;align-items:center;gap:5px;pointer-events:none;
+  transition:opacity 0.5s ease}
+.swipe-hint.hidden{opacity:0}
+.show-more-row{display:none}
 @keyframes noteIn{from{opacity:0;transform:scale(0.85) translateY(8px)}to{opacity:1}}
 
 /* ── CLOSING ── */
@@ -427,10 +467,12 @@ canvas#booth-canvas{display:none}
 /* ── RESPONSIVE ── */
 @media(max-width:600px){
   .cd-grid{gap:9px}
-  .notes-grid{grid-template-columns:1fr 1fr}
   .corkboard{padding:16px}
+  .notes-grid{grid-auto-columns:160px;gap:12px}
 }
-@media(max-width:380px){.notes-grid{grid-template-columns:1fr}}
+@media(min-width:900px){
+  .notes-grid{grid-auto-columns:200px}
+}
 </style>
 </head>
 <body>
@@ -501,9 +543,9 @@ canvas#booth-canvas{display:none}
   <div class="hero-badge" id="hero-badge">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
   <!-- Doodle_1.png: couple standing together in wedding attire -->
   <div class="hero-art" id="hero-art">
-    <img src="Web_assets/Doodle_1.png" alt="Nisrin & Naseef"/>
+    <img src="Web_assets/Doodle_1.png" alt="Naseef & Nisrin"/>
   </div>
-  <div class="hero-names">Nisrin <span class="amp">&amp;</span> Naseef</div>
+  <div class="hero-names">Naseef <span class="amp">&amp;</span> Nisrin</div>
   <div class="hero-tagline">request the honour of your presence</div>
   <div class="scroll-hint"><span>scroll to begin</span><div class="sarr"></div></div>
 </section>
@@ -515,7 +557,7 @@ canvas#booth-canvas{display:none}
     <img src="Web_assets/Holding_hands.png" alt="Two hands joining in Nikah"/>
   </div>
   <div class="nik-title reveal d2">The <em>Nikah</em></div>
-  <div class="nik-sub reveal d2">of Nisrin &amp; Naseef</div>
+  <div class="nik-sub reveal d2">of Naseef &amp; Nisrin</div>
   <div class="nik-divider reveal d3"></div>
   <div class="nik-details reveal d3">
     <div class="nik-detail"><em>18 October 2026</em> · 11:30 AM</div>
@@ -534,7 +576,7 @@ canvas#booth-canvas{display:none}
     <div class="nik-doodle reveal d2">
       <img src="Web_assets/Holding_hands.png" alt="Two hands joining in Nikah"/>
     </div>
-    <div class="nik-details reveal d3">11:30 AM &nbsp;•&nbsp; Durbar Convention Center &nbsp;•&nbsp; Kodungallur</div>
+    <div class="nik-details reveal d3">11:30 AM &nbsp;·&nbsp; Durbar Convention Center, Kodungallur</div>
   </div>
 </section>
 
@@ -550,6 +592,23 @@ canvas#booth-canvas{display:none}
 <div id="last-frame-section">
   <img id="last-frame-img" src="" alt=""/>
 </div>
+
+<!-- ── RECEPTION SECTION (shown only for ?e=b) ── -->
+<section id="reception">
+  <div class="rec-invite reveal">We also invite you to</div>
+  <div class="rec-title reveal d2">The <em>Reception</em></div>
+  <div class="rec-sub reveal d2">of Naseef &amp; Nisrin</div>
+  <div class="rec-doodle reveal d1">
+    <img src="Web_assets/reception_doodle.png" alt="Wedding Reception"/>
+  </div>
+  <div class="rec-divider reveal d3"></div>
+  <div class="rec-details reveal d3">
+    <div class="rec-detail"><em>19 October 2026</em> · 4:00 PM</div>
+    <div class="rec-detail">Farm Rock Garden
+      <span class="rec-place-sub">Farook College Road, Chungam</span>
+    </div>
+  </div>
+</section>
 
 <!-- ── VENUES ── -->
 <section id="venues">
@@ -666,11 +725,11 @@ canvas#booth-canvas{display:none}
       <div class="letter-text">
         <p id="letter-salutation">Hai,</p>
         <p>If this invitation found its way to you, it is because you matter to us more than words can say.</p>
-        <p>Nisrin and Naseef's journey to this day has been quiet, full of faith, and full of love. On October 19th, we open the doors of Farm Rock Garden to celebrate not just a wedding, but the beginning of a beautiful life together.</p>
+        <p>Naseef and Nisrin's journey to this day has been quiet, full of faith, and full of love. On October 19th, we open the doors of Farm Rock Garden to celebrate not just a wedding, but the beginning of a beautiful life together.</p>
         <p>We don't ask for much. Just your presence, your duas, and your smile.</p>
         <p>See you there, insha'Allah.</p>
       </div>
-      <div class="letter-sig">— Nisrin &amp; Naseef 🤍</div>
+      <div class="letter-sig">— Naseef &amp; Nisrin 🤍</div>
     </div>
   </div>
 </section>
@@ -687,12 +746,12 @@ canvas#booth-canvas{display:none}
     <canvas id="booth-canvas"></canvas>
     <div class="booth-actions">
       <button class="btn btn-p" id="booth-snap">📸 Snap</button>
-      <a class="btn btn-s" id="booth-dl" style="display:none" download="Nisrin-Naseef-vip.png">⬇ Save Photo</a>
+      <a class="btn btn-s" id="booth-dl" style="display:none" download="naseef-nisrin-vip.png">⬇ Save Photo</a>
     </div>
   </div>
   <!-- Fallback (shown before camera granted or if denied) -->
   <div class="booth-fallback" id="booth-fallback">
-    <img src="Web_assets/Doodle_camera.png" alt="Nisrin & Naseef holding a camera"/>
+    <img src="Web_assets/Doodle_camera.png" alt="Naseef & Nisrin holding a camera"/>
     <button class="btn btn-p" id="booth-start">📸 Open Camera</button>
   </div>
 </section>
@@ -716,12 +775,10 @@ canvas#booth-canvas{display:none}
         </div>
         <div class="note note-pinned">
           <div class="note-from">Misbah</div>
-          <div class="note-text">Big day, little bro. May Allah bless you and Naseef with all the goodness in this world and the next. So proud of you. 🌟</div>
+          <div class="note-text">Big day, little bro. May Allah bless you and Nisrin with all the goodness in this world and the next. So proud of you. 🌟</div>
         </div>
       </div>
-      <div class="show-more-row">
-        <button id="show-more-btn">Show more wishes ↓</button>
-      </div>
+      <div class="swipe-hint" id="swipe-hint">swipe ›</div>
     </div>
     <div class="wb-eye reveal d2">Leave a wish</div>
     <div class="wish-form reveal d3">
@@ -745,11 +802,11 @@ canvas#booth-canvas{display:none}
     <span class="cl-heart reveal d1">🤍</span>
     <div class="cl-names reveal d2">
       <span class="small">with love,</span>
-      Nisrin &amp; Naseef
+      Naseef &amp; Nisrin
     </div>
     <!-- Doodle_2.png: couple walking away, seen from behind -->
     <div class="cl-art reveal d3" id="closing-art">
-      <img src="Web_assets/Doodle_2.png" alt="Nisrin & Naseef walking together"/>
+      <img src="Web_assets/Doodle_2.png" alt="Naseef & Nisrin walking together"/>
     </div>
     <div class="cl-arabic reveal d4">بَارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</div>
     <div class="cl-trans reveal d4">May Allah bless you both and unite you in goodness</div>
@@ -797,16 +854,14 @@ const isNikahOnly     = eventParam==='n';
 const isBoth          = !isReceptionOnly && !isNikahOnly;
 
 (function applyEventVersion(){
-  // Dark ceremonial nikah section: shown for nikah-only and both, hidden for reception-only
   const nikahSec      = document.getElementById('nikah');
-  // Light nikah section: shown only for reception-only
-  const nikahLight     = document.getElementById('nikah-light');
-  // Venues: nikah card + reception card
-  const venuesWrap     = document.getElementById('venues-wrap');
-  const venueNikah     = document.getElementById('venue-nikah');
-  const venueRecep     = document.getElementById('venue-recep');
-  const venueNikahTitle= document.getElementById('venue-nikah-title');
-  const venueRecepTitle= document.getElementById('venue-recep-title');
+  const nikahLight    = document.getElementById('nikah-light');
+  const recepSec      = document.getElementById('reception');
+  const venuesWrap    = document.getElementById('venues-wrap');
+  const venueNikah    = document.getElementById('venue-nikah');
+  const venueRecep    = document.getElementById('venue-recep');
+  const venueNikahTitle = document.getElementById('venue-nikah-title');
+  const venueRecepTitle = document.getElementById('venue-recep-title');
 
   function hide(el){ if(el) el.style.display='none'; }
   function show(el,display){ if(el) el.style.display=display||'block'; }
@@ -814,6 +869,7 @@ const isBoth          = !isReceptionOnly && !isNikahOnly;
   if(isReceptionOnly){
     hide(nikahSec);
     show(nikahLight);
+    hide(recepSec);
     hide(venueNikah);
     show(venueRecep);
     if(venuesWrap) venuesWrap.classList.add('single');
@@ -821,6 +877,7 @@ const isBoth          = !isReceptionOnly && !isNikahOnly;
   } else if(isNikahOnly){
     show(nikahSec);
     hide(nikahLight);
+    hide(recepSec);
     show(venueNikah);
     hide(venueRecep);
     if(venuesWrap) venuesWrap.classList.add('single');
@@ -829,6 +886,7 @@ const isBoth          = !isReceptionOnly && !isNikahOnly;
     // both
     show(nikahSec);
     hide(nikahLight);
+    show(recepSec);
     show(venueNikah);
     show(venueRecep);
     if(venuesWrap) venuesWrap.classList.remove('single');
@@ -836,15 +894,10 @@ const isBoth          = !isReceptionOnly && !isNikahOnly;
     if(venueRecepTitle) venueRecepTitle.innerHTML='Reception <em>Venue</em>';
   }
 
-  // Countdown target
-  // Nikah-only and both → Oct 18 11:30am IST (first event)
-  // Reception-only      → Oct 19 4pm IST
   window.__countdownTarget = isReceptionOnly
     ? new Date('2026-10-19T16:00:00+05:30')
     : new Date('2026-10-18T11:30:00+05:30');
 
-  // Calendar save mode
-  // b → save both events, n → nikah only, r → reception only
   window.__calendarMode = isNikahOnly ? 'nikah' : isReceptionOnly ? 'reception' : 'both';
 })();
 
@@ -1079,11 +1132,12 @@ addEventListener('scroll',()=>{
 (function(){
   // ── Device detection ─────────────────────────────
   const isMobile = window.matchMedia('(max-width:768px)').matches;
-  const isNikahGuest = (new URLSearchParams(window.location.search).get('e')||'').toLowerCase()==='n';
+  const eParam = (new URLSearchParams(window.location.search).get('e')||'b').toLowerCase();
+  const stopEarly = eParam==='n' || eParam==='b'; // nikah-only and both stop before reception details
 
-  // For nikah-only guests, stop scrub early before reception details appear
+  // Stop early so reception venue details don't appear in scrub for these versions
   const TOTAL_FRAMES = isMobile ? 250 : 360;
-  const STOP_AT      = isNikahGuest ? (isMobile ? 217 : 291) : TOTAL_FRAMES;
+  const STOP_AT      = stopEarly ? (isMobile ? 217 : 291) : TOTAL_FRAMES;
   const TOTAL        = STOP_AT;
   const STEP         = 1;
   const PAD          = 3;
@@ -1204,76 +1258,77 @@ $('cal-btn').addEventListener('click',()=>{
   const mode = window.__calendarMode || 'both';
 
   // Event definitions
-  const nikahEvent={
-    title:'Nisrin & Naseef — The Nikah 🤍',
-    details:'You are warmly invited to the Nikah of Nisrin & Naseef.\nDurbar Convention Center, Kodungallur · 11:30 AM',
-    location:'Durbar Convention Center, Kodungallur, Kerala',
-    start:'20261018T060000Z', end:'20261018T093000Z',
-    startIST:'20261018T113000', endIST:'20261018T140000'
-  };
-  const recepEvent={
-    title:'Nisrin & Naseef — Wedding Reception 🤍',
-    details:'You are warmly invited to the wedding reception of Nisrin & Naseef.\nFarm Rock Garden, Farook College Road, Chungam, Kozhikode · 4:00 PM',
-    location:'Farm Rock Garden, Farook College Road, Chungam, Kozhikode, Kerala',
-    start:'20261019T103000Z', end:'20261019T163000Z',
-    startIST:'20261019T160000', endIST:'20261019T220000'
-  };
+  const nikahTitle  = 'Naseef & Nisrin — The Nikah 🤍';
+  const recepTitle  = 'Naseef & Nisrin — Wedding Reception 🤍';
+  const bothTitle   = 'Naseef & Nisrin Wedding 🤍';
 
-  function makeVEVENT(ev){
+  if(isAndroid){
+    let url;
+    if(mode==='both'){
+      // Single two-day event spanning nikah → end of reception
+      url='https://calendar.google.com/calendar/render?action=TEMPLATE'
+        +'&text='+encodeURIComponent(bothTitle)
+        +'&dates=20261018T060000Z/20261019T163000Z'
+        +'&details='+encodeURIComponent('The Nikah: Oct 18, 11:30 AM · Durbar Convention Center, Kodungallur\nThe Reception: Oct 19, 4:00 PM · Farm Rock Garden, Chungam')
+        +'&location='+encodeURIComponent('Kozhikode, Kerala');
+    }else if(mode==='nikah'){
+      url='https://calendar.google.com/calendar/render?action=TEMPLATE'
+        +'&text='+encodeURIComponent(nikahTitle)
+        +'&dates=20261018T060000Z/20261018T093000Z'
+        +'&details='+encodeURIComponent('Durbar Convention Center, Kodungallur · 11:30 AM')
+        +'&location='+encodeURIComponent('Durbar Convention Center, Kodungallur');
+    }else{
+      url='https://calendar.google.com/calendar/render?action=TEMPLATE'
+        +'&text='+encodeURIComponent(recepTitle)
+        +'&dates=20261019T103000Z/20261019T163000Z'
+        +'&details='+encodeURIComponent('Farm Rock Garden, Farook College Road, Chungam · 4:00 PM')
+        +'&location='+encodeURIComponent('Farm Rock Garden, Farook College Road, Chungam');
+    }
+    window.location.href=url;
+    return;
+  }
+
+  // iOS and Desktop — .ics file
+  function makeVEVENT(startIST,endIST,title,details,location){
     return ['BEGIN:VEVENT',
-      'DTSTART;TZID=Asia/Kolkata:'+ev.startIST,
-      'DTEND;TZID=Asia/Kolkata:'+ev.endIST,
-      'SUMMARY:'+ev.title,
-      'DESCRIPTION:'+ev.details.replace(/\n/g,'\\n').replace(/,/g,'\\,'),
-      'LOCATION:'+ev.location.replace(/,/g,'\\,'),
+      'DTSTART;TZID=Asia/Kolkata:'+startIST,
+      'DTEND;TZID=Asia/Kolkata:'+endIST,
+      'SUMMARY:'+title,
+      'DESCRIPTION:'+details.replace(/\n/g,'\\n').replace(/,/g,'\\,'),
+      'LOCATION:'+location.replace(/,/g,'\\,'),
       'STATUS:CONFIRMED',
       'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Reminder 🤍','TRIGGER:-PT1H','END:VALARM',
       'END:VEVENT'].join('\r\n');
   }
 
-  // Android — Google Calendar deep link
-  if(isAndroid){
-    function gcalUrl(ev){
-      return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-        +'&text='+encodeURIComponent(ev.title)
-        +'&dates='+ev.start+'/'+ev.end
-        +'&details='+encodeURIComponent(ev.details)
-        +'&location='+encodeURIComponent(ev.location);
-    }
-    if(mode==='both'){
-      // Open the reception event in a new tab FIRST (synchronously, in the
-      // same click handler) — a setTimeout here would get cancelled the
-      // instant we navigate the current tab away to the nikah event below.
-      toast('📅 Adding both events — check the second tab too!');
-      window.open(gcalUrl(recepEvent),'_blank');
-      window.location.href=gcalUrl(nikahEvent);
-      return;
-    }
-    const ev = mode==='nikah' ? nikahEvent : recepEvent;
-    window.location.href=gcalUrl(ev);
-    return;
+  let vevents;
+  if(mode==='both'){
+    // Single event spanning both days
+    vevents=makeVEVENT('20261018T113000','20261019T220000',bothTitle,
+      'The Nikah: Oct 18, 11:30 AM · Durbar Convention Center, Kodungallur\\nThe Reception: Oct 19, 4:00 PM · Farm Rock Garden, Chungam',
+      'Kozhikode, Kerala');
+  }else if(mode==='nikah'){
+    vevents=makeVEVENT('20261018T113000','20261018T140000',nikahTitle,
+      'Durbar Convention Center, Kodungallur · 11:30 AM','Durbar Convention Center, Kodungallur');
+  }else{
+    vevents=makeVEVENT('20261019T160000','20261019T220000',recepTitle,
+      'Farm Rock Garden, Farook College Road, Chungam · 4:00 PM',
+      'Farm Rock Garden, Farook College Road, Chungam');
   }
 
-  // iOS and Desktop — .ics file
-  const events = mode==='both'
-    ? makeVEVENT(nikahEvent)+'\r\n'+makeVEVENT(recepEvent)
-    : mode==='nikah' ? makeVEVENT(nikahEvent) : makeVEVENT(recepEvent);
-
   const ics=['BEGIN:VCALENDAR','VERSION:2.0',
-    'PRODID:-//Nisrin & Naseef Wedding//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',
-    events,
-    'END:VCALENDAR'].join('\r\n');
+    'PRODID:-//Naseef & Nisrin Wedding//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    vevents,'END:VCALENDAR'].join('\r\n');
 
   if(isIOS){
     window.location.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);
   }else{
     const b=new Blob([ics],{type:'text/calendar;charset=utf-8'});
     const u=URL.createObjectURL(b),a=document.createElement('a');
-    a.href=u;a.download='Nisrin-Naseef-wedding.ics';a.click();URL.revokeObjectURL(u);
+    a.href=u;a.download='naseef-nisrin-wedding.ics';a.click();URL.revokeObjectURL(u);
     toast('📅 Calendar invite downloaded!');
   }
 });
-
 /* ── PHOTO BOOTH ─────────────────────── */
 const boothLive=$('booth-live'),boothFallback=$('booth-fallback');
 const boothVideo=$('booth-video'),boothSnap=$('booth-snap');
@@ -1352,9 +1407,8 @@ boothSnap.addEventListener('click',()=>{
 /* ── WISHBOARD ───────────────────────── */
 const wName=$('w-name'),wText=$('w-text'),wSubmit=$('w-submit'),wLbl=$('w-lbl');
 const wChar=$('w-char'),notesGrid=$('notes-grid');
-const showMoreBtn=$('show-more-btn');
-const CHAR_LIMIT=160,PINNED=3,BATCH=9;
-let allWishes=[],shownCount=0;
+const CHAR_LIMIT=160;
+let allWishes=[];
 
 wText.addEventListener('input',()=>{
   const rem=CHAR_LIMIT-wText.value.length;
@@ -1367,23 +1421,28 @@ function makeNote(name,wish){
   d.innerHTML=`<div class="note-from">${esc(name)}</div><div class="note-text">${esc(wish)}</div>`;
   return d;
 }
+
 function renderWishes(){
   notesGrid.querySelectorAll('.note:not(.note-pinned)').forEach(n=>n.remove());
-  allWishes.slice(0,shownCount).forEach(w=>notesGrid.appendChild(makeNote(w.name,w.wish)));
-  if(allWishes.length>shownCount){
-    showMoreBtn.style.display='block';
-    showMoreBtn.textContent=`Show ${Math.min(BATCH,allWishes.length-shownCount)} more ↓`;
-  }else{showMoreBtn.style.display='none';}
+  allWishes.forEach(w=>notesGrid.appendChild(makeNote(w.name,w.wish)));
 }
-showMoreBtn.addEventListener('click',()=>{
-  shownCount=Math.min(allWishes.length,shownCount+BATCH);renderWishes();
-});
+
+// Swipe hint: fade out after first user interaction with the board
+const swipeHint=document.getElementById('swipe-hint');
+const corkEl=document.querySelector('.corkboard');
+if(corkEl&&swipeHint){
+  function hideHint(){swipeHint.classList.add('hidden');corkEl.removeEventListener('scroll',hideHint);corkEl.removeEventListener('touchstart',hideHint);}
+  corkEl.addEventListener('scroll',hideHint,{passive:true,once:true});
+  corkEl.addEventListener('touchstart',hideHint,{passive:true,once:true});
+}
+
 if(fbReady&&db){
   db.collection('wishes').where('status','==','approved')
-    .orderBy('timestamp','desc').limit(100)
+    .orderBy('timestamp','asc')
     .onSnapshot(snap=>{
-      allWishes=[];snap.forEach(doc=>{const d=doc.data();allWishes.push({name:d.name,wish:d.wish})});
-      shownCount=Math.min(BATCH,allWishes.length);renderWishes();
+      allWishes=[];
+      snap.forEach(doc=>{const d=doc.data();allWishes.push({name:d.name,wish:d.wish})});
+      renderWishes();
     },err=>console.warn('Firestore:',err));
 }
 wSubmit.addEventListener('click',async()=>{
@@ -1400,7 +1459,7 @@ wSubmit.addEventListener('click',async()=>{
     toast('Your wish is in, will be pinned soon 🤍');
     // Telegram notification
     (function(){
-      const msg='🌸 New wish submitted!\n\nFrom: '+name+'\nWish: '+wish+'\n\nApprove 👉 https://smilttu.github.io/invitation/admin.html';
+      const msg='🌸 New wish submitted!\n\nFrom: '+name+'\nWish: '+wish+'\n\nApprove 👉 https://naseef-pp.github.io/invitation/admin.html';
       fetch('https://api.telegram.org/bot8933615162:AAHsyGIVpMFRr990OssXTH4fbxBup4x3XN8/sendMessage',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
