@@ -1151,9 +1151,10 @@ addEventListener('scroll',()=>{
   const STEP         = 1;
   const PAD          = 3;
   const FRAME_PATH   = isMobile ? 'Web_assets/Frames_4/' : 'Web_assets/Frames_3/';
-  const PLACEHOLDER  = isMobile
-    ? 'Web_assets/last_frame_port.webp'
-    : 'Web_assets/last_frame.webp';
+
+  // Dynamic Placeholder FIX
+  const PLACEHOLDER = stopEarly ? FRAME_PATH + String(STOP_AT).padStart(PAD, '0') + '.webp'
+    : (isMobile ? 'Web_assets/last_frame_port.webp' : 'Web_assets/last_frame.webp');
 
   // ── Element refs ──────────────────────────────────
   const section  = $('venue-section');
