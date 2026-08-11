@@ -392,13 +392,14 @@ canvas#booth-canvas{display:none}
 .w-row{display:flex;justify-content:flex-end}
 /* corkboard — fixed height, horizontally scrollable */
 .corkboard{background:linear-gradient(135deg,#8B6914 0%,#A07820 30%,#8B6914 60%,#9A7218 100%);
-  border-radius:12px;padding:28px;
+  border-radius:12px;padding:28px 0 28px 28px;
   box-shadow:0 8px 32px rgba(0,0,0,0.4),inset 0 0 40px rgba(0,0,0,0.15);
   position:relative;
   overflow-x:auto;overflow-y:hidden;
   -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;height:calc(100vh - 220px);
-  min-height:320px;max-height:520px}
+  scrollbar-width:none;height:calc(100vh - 180px);
+  min-height: 520px; max-height:650px;
+}
 .corkboard::-webkit-scrollbar{display:none}
 .corkboard::before{content:'';position:absolute;inset:0;border-radius:12px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.6' fill='rgba(0,0,0,0.08)'/%3E%3Ccircle cx='3' cy='3' r='0.5' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E");
@@ -408,12 +409,15 @@ canvas#booth-canvas{display:none}
   margin-bottom:20px;position:relative;z-index:1}
 /* notes flow in a two-row grid that extends horizontally */
 .notes-grid{display:grid;
-  grid-template-rows:1fr 1fr;
+  grid-template-rows:1fr 1fr 1fr;
   grid-auto-flow:column;
   grid-auto-columns:180px;
   gap:14px;
+  padding-right: 28px;
+  width: max-content;
   position:relative;z-index:1;
-  height:calc(100% - 40px)}
+  height:calc(100% - 40px);
+}
 .note{padding:18px 16px 14px;border-radius:2px;
   box-shadow:2px 2px 6px rgba(0,0,0,0.25);font-family:var(--fh);
   animation:noteIn 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
@@ -425,8 +429,13 @@ canvas#booth-canvas{display:none}
 .note:nth-child(4n+3){background:#FDE8E0;transform:rotate(-0.6deg)}
 .note:nth-child(4n+4){background:#E8E8F8;transform:rotate(1.4deg)}
 .note-from{font-size:16px;color:var(--terra-d);font-weight:600;margin-bottom:6px}
-.note-text{font-size:13px;color:#3D2F20;line-height:1.5;
-  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.note-text {
+  font-size: 13px;
+  color: #3D2F20;
+  line-height: 1.5;
+  margin-bottom: 4px; /* Adds that small space below the last line */
+  /* (Removed the -webkit-line-clamp and overflow hidden rules) */
+}
 /* swipe hint — fades in on mobile, fades out after first swipe */
 .swipe-hint{position:absolute;right:16px;bottom:12px;z-index:2;
   font-family:var(--fh);font-size:12px;color:rgba(255,255,255,0.5);
@@ -467,8 +476,8 @@ canvas#booth-canvas{display:none}
 /* ── RESPONSIVE ── */
 @media(max-width:600px){
   .cd-grid{gap:9px}
-  .corkboard{padding:16px}
-  .notes-grid{grid-auto-columns:160px;gap:12px}
+  .corkboard{padding:16px 0 16px 16px}
+  .notes-grid{grid-auto-columns:160px; gap:12px; padding-right: 16px; width: max-content;}
 }
 @media(min-width:900px){
   .notes-grid{grid-auto-columns:200px}
