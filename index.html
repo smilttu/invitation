@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Naseef & Nisrin — Wedding Invitation</title>
-<meta name="description" content="You are invited to the wedding of Naseef & Nisrin · October 2026 · Kozhikode"/>
+<title>Nisrin & Naseef — Wedding Invitation</title>
+<meta name="description" content="You are invited to the wedding of Nisrin & Naseef · October 2026 · Kozhikode"/>
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="Web_assets/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="Web_assets/favicon-32.png"/>
 <link rel="apple-touch-icon" sizes="180x180" href="Web_assets/apple-touch-icon.png"/>
 
 <!-- Open Graph (WhatsApp, Instagram, iMessage previews) -->
-<meta property="og:title" content="Naseef & Nisrin — Wedding Invitation"/>
-<meta property="og:description" content="You are warmly invited to the wedding of Naseef & Nisrin · October 19, 2026 · Farm Rock Garden, Chungam"/>
+<meta property="og:title" content="Nisrin & Naseef — Wedding Invitation"/>
+<meta property="og:description" content="You are warmly invited to the wedding of Nisrin & Naseef"/>
 <meta property="og:image" content="https://smilttu.github.io/invitation/Web_assets/og_image.jpg"/>
 <meta property="og:url" content="https://smilttu.github.io/invitation/"/>
 <meta property="og:type" content="website"/>
@@ -441,6 +441,7 @@ canvas#booth-canvas{display:none}
   font-family:var(--fh);font-size:12px;color:rgba(255,255,255,0.5);
   display:flex;align-items:center;gap:5px;pointer-events:none;
   transition:opacity 0.5s ease}
+.d-text { display: none; } /*desktop swipt hint, 'press shift + scroll' is hidden by default*/
 .swipe-hint.hidden{opacity:0}
 .show-more-row{display:none}
 @keyframes noteIn{from{opacity:0;transform:scale(0.85) translateY(8px)}to{opacity:1}}
@@ -481,6 +482,8 @@ canvas#booth-canvas{display:none}
 }
 @media(min-width:900px){
   .notes-grid{grid-auto-columns:200px}
+  .m-text{display: none;}
+  .d-text{display: inline;}
 }
 </style>
 </head>
@@ -552,9 +555,9 @@ canvas#booth-canvas{display:none}
   <div class="hero-badge" id="hero-badge">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
   <!-- Doodle_1.png: couple standing together in wedding attire -->
   <div class="hero-art" id="hero-art">
-    <img src="Web_assets/Doodle_1.png" alt="Naseef & Nisrin"/>
+    <img src="Web_assets/Doodle_1.png" alt="Nisrin & Naseef"/>
   </div>
-  <div class="hero-names">Naseef <span class="amp">&amp;</span> Nisrin</div>
+  <div class="hero-names">Nisrin <span class="amp">&amp;</span> Naseef</div>
   <div class="hero-tagline">request the honour of your presence</div>
   <div class="scroll-hint"><span>scroll to begin</span><div class="sarr"></div></div>
 </section>
@@ -566,7 +569,7 @@ canvas#booth-canvas{display:none}
     <img src="Web_assets/Holding_hands.png" alt="Two hands joining in Nikah"/>
   </div>
   <div class="nik-title reveal d2">The <em>Nikah</em></div>
-  <div class="nik-sub reveal d2">of Naseef &amp; Nisrin</div>
+  <div class="nik-sub reveal d2">of Nisrin &amp; Naseef</div>
   <div class="nik-divider reveal d3"></div>
   <div class="nik-details reveal d3">
     <div class="nik-detail"><em>18 October 2026</em> · 11:30 AM</div>
@@ -585,7 +588,7 @@ canvas#booth-canvas{display:none}
     <div class="nik-doodle reveal d2">
       <img src="Web_assets/Holding_hands.png" alt="Two hands joining in Nikah"/>
     </div>
-    <div class="nik-details reveal d3">11:30 AM &nbsp;·&nbsp; Durbar Convention Center, Kodungallur</div>
+    <div class="nik-details reveal d3">11:30 AM &nbsp;·&nbsp; Durbar Convention Center · Kodungallur</div>
   </div>
 </section>
 
@@ -606,7 +609,7 @@ canvas#booth-canvas{display:none}
 <section id="reception">
   <div class="rec-invite reveal">We also invite you to</div>
   <div class="rec-title reveal d2">The <em>Reception</em></div>
-  <div class="rec-sub reveal d2">of Naseef &amp; Nisrin</div>
+  <div class="rec-sub reveal d2">of Nisrin &amp; Naseef</div>
   <div class="rec-doodle reveal d1">
     <img src="Web_assets/reception_doodle.png" alt="Wedding Reception"/>
   </div>
@@ -733,12 +736,12 @@ canvas#booth-canvas{display:none}
     <div class="letter-card reveal d1">
       <div class="letter-text">
         <p id="letter-salutation">Hai,</p>
-        <p>If this invitation found its way to you, it is because you matter to us more than words can say.</p>
-        <p>Naseef and Nisrin's journey to this day has been quiet, full of faith, and full of love. On October 19th, we open the doors of Farm Rock Garden to celebrate not just a wedding, but the beginning of a beautiful life together.</p>
-        <p>We don't ask for much. Just your presence, your duas, and your smile.</p>
-        <p>See you there, insha'Allah.</p>
+        <p>Somewhere between our first conversation and now, we collected a thousand little moments that became our story.</p>
+        <p>And now, we get to begin the next part of it together.</p>
+        <p>And we couldn't imagine sharing this day without the people who have been special to us along the way.</p>
+        <p>Come celebrate with us, bless us, and keep us in your duas as we begin this new chapter together.</p>
       </div>
-      <div class="letter-sig">— Naseef &amp; Nisrin 🤍</div>
+      <div class="letter-sig">— Nisrin &amp; Naseef 🤍</div>
     </div>
   </div>
 </section>
@@ -755,12 +758,12 @@ canvas#booth-canvas{display:none}
     <canvas id="booth-canvas"></canvas>
     <div class="booth-actions">
       <button class="btn btn-p" id="booth-snap">📸 Snap</button>
-      <a class="btn btn-s" id="booth-dl" style="display:none" download="naseef-nisrin-vip.png">⬇ Save Photo</a>
+      <a class="btn btn-s" id="booth-dl" style="display:none" download="Nisrin-Naseef-vip.png">⬇ Save Photo</a>
     </div>
   </div>
   <!-- Fallback (shown before camera granted or if denied) -->
   <div class="booth-fallback" id="booth-fallback">
-    <img src="Web_assets/Doodle_camera.png" alt="Naseef & Nisrin holding a camera"/>
+    <img src="Web_assets/Doodle_camera.png" alt="Nisrin & Naseef holding a camera"/>
     <button class="btn btn-p" id="booth-start">📸 Open Camera</button>
   </div>
 </section>
@@ -775,7 +778,7 @@ canvas#booth-canvas{display:none}
       <div class="notes-grid" id="notes-grid">
         <!-- Hardcoded pinned family notes -->
         <div class="note note-pinned">
-          <div class="note-from">Naseemanaf</div>
+          <div class="note-from">Naseema &amp; Manaf</div>
           <div class="note-text">Our duas have been with you every step of the way. May Allah bless you both with a home full of love, laughter, and His endless mercy. — Umma &amp; Uppa 🤍</div>
         </div>
         <div class="note note-pinned">
@@ -784,10 +787,21 @@ canvas#booth-canvas{display:none}
         </div>
         <div class="note note-pinned">
           <div class="note-from">Misbah</div>
-          <div class="note-text">Big day, little bro. May Allah bless you and Nisrin with all the goodness in this world and the next. So proud of you. 🌟</div>
+          <div class="note-text">Big day, big bro. May Allah bless you both with all the goodness in this world and the next. So proud of you. 🌟</div>
+        </div>
+        <div class="note note-pinned">
+          <div class="note-from">Shejila &amp; Sameerkhan</div>
+          <div class="note-text">Our duas have been with you every step of the way. May Allah bless you both with a home full of love, laughter, and His endless mercy. — Umma &amp; Uppa 🤍</div>
+        </div>
+        <div class="note note-pinned">
+          <div class="note-from">Nourin</div>
+          <div class="note-text">Big day, big sis. May Allah bless you both with all the goodness in this world and the next. So proud of you. 🌟</div>
         </div>
       </div>
-      <div class="swipe-hint" id="swipe-hint">swipe ›</div>
+      <div class="swipe-hint" id="swipe-hint">
+        <span class="m-text">swipe ›</span>
+        <span class="d-text">press shift + scroll ›</span>
+      </div>
     </div>
     <div class="wb-eye reveal d2">Leave a wish</div>
     <div class="wish-form reveal d3">
@@ -811,11 +825,11 @@ canvas#booth-canvas{display:none}
     <span class="cl-heart reveal d1">🤍</span>
     <div class="cl-names reveal d2">
       <span class="small">with love,</span>
-      Naseef &amp; Nisrin
+      Nisrin &amp; Naseef
     </div>
     <!-- Doodle_2.png: couple walking away, seen from behind -->
     <div class="cl-art reveal d3" id="closing-art">
-      <img src="Web_assets/Doodle_2.png" alt="Naseef & Nisrin walking together"/>
+      <img src="Web_assets/Doodle_2.png" alt="Nisrin & Naseef walking together"/>
     </div>
     <div class="cl-arabic reveal d4">بَارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</div>
     <div class="cl-trans reveal d4">May Allah bless you both and unite you in goodness</div>
@@ -1268,9 +1282,9 @@ $('cal-btn').addEventListener('click',()=>{
   const mode = window.__calendarMode || 'both';
 
   // Event definitions
-  const nikahTitle  = 'Naseef & Nisrin — The Nikah 🤍';
-  const recepTitle  = 'Naseef & Nisrin — Wedding Reception 🤍';
-  const bothTitle   = 'Naseef & Nisrin Wedding 🤍';
+  const nikahTitle  = 'Nisrin & Naseef — The Nikah 🤍';
+  const recepTitle  = 'Nisrin & Naseef — Wedding Reception 🤍';
+  const bothTitle   = 'Nisrin & Naseef Wedding 🤍';
 
   if(isAndroid){
     let url;
@@ -1327,7 +1341,7 @@ $('cal-btn').addEventListener('click',()=>{
   }
 
   const ics=['BEGIN:VCALENDAR','VERSION:2.0',
-    'PRODID:-//Naseef & Nisrin Wedding//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    'PRODID:-//Nisrin & Naseef Wedding//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',
     vevents,'END:VCALENDAR'].join('\r\n');
 
   if(isIOS){
@@ -1335,7 +1349,7 @@ $('cal-btn').addEventListener('click',()=>{
   }else{
     const b=new Blob([ics],{type:'text/calendar;charset=utf-8'});
     const u=URL.createObjectURL(b),a=document.createElement('a');
-    a.href=u;a.download='naseef-nisrin-wedding.ics';a.click();URL.revokeObjectURL(u);
+    a.href=u;a.download='Nisrin-Naseef-wedding.ics';a.click();URL.revokeObjectURL(u);
     toast('📅 Calendar invite downloaded!');
   }
 });
