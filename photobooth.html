@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Naseef & Nisrin — Photo Booth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,400&family=Caveat:wght@600&family=Mulish:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --cream:#FAF7F2;--ink:#1E1810;--ink-light:#6B5544;
+    --terra:#C4714A;--terra-d:#9A4F2E;
+    --fd:'Cormorant Garamond',Georgia,serif;
+    --fh:'Caveat',cursive;--fb:'Mulish',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--cream);font-family:var(--fb);
+    min-height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:24px;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px)}
+
+  h1{font-family:var(--fd);font-weight:300;font-style:italic;
+    font-size:clamp(28px,7vw,40px);color:var(--ink);
+    text-align:center;margin-bottom:6px}
+  h1 em{color:var(--terra);font-style:normal}
+  .sub{font-family:var(--fh);font-size:15px;color:var(--ink-light);
+    text-align:center;margin-bottom:32px}
+
+  /* booth */
+  .booth-wrap{width:100%;max-width:380px;margin:0 auto}
+
+  .booth-live{display:none;flex-direction:column;align-items:center;gap:16px}
+  .booth-frame-wrap{position:relative;width:100%}
+  .booth-video-el{position:absolute;object-fit:cover;border-radius:4px;
+    top:22%;left:15%;width:70%;height:54%;
+    transform:scaleX(-1);z-index:1}
+  .booth-frame-img{width:100%;height:auto;display:block;
+    position:relative;z-index:2;pointer-events:none}
+  .booth-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;width:100%}
+
+  .booth-fallback{display:flex;flex-direction:column;align-items:center;gap:20px}
+  .booth-fallback .doodle{width:clamp(140px,40vw,200px);opacity:0.7}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:8px;
+    padding:12px 24px;border-radius:40px;border:none;
+    font-family:var(--fh);font-size:17px;cursor:pointer;
+    text-decoration:none;transition:opacity 0.2s}
+  .btn:active{opacity:0.75}
+  .btn-p{background:var(--terra);color:#fff}
+  .btn-s{background:transparent;color:var(--terra);
+    border:1.5px solid var(--terra)}
+
+  canvas{display:none}
+
+  /* toast */
+  #toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+    background:rgba(30,24,16,0.88);color:#fff;padding:12px 22px;
+    border-radius:30px;font-family:var(--fh);font-size:16px;
+    white-space:nowrap;opacity:0;transition:opacity 0.3s;
+    pointer-events:none;z-index:99}
+  #toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+  <h1>Naseef &amp; <em>Nisrin</em></h1>
+  <p class="sub">Private Photo Booth 📸</p>
+
+  <div class="booth-wrap">
+
+    <!-- Fallback: open camera button -->
+    <div class="booth-fallback" id="booth-fallback">
+      <button class="btn btn-p" id="booth-start">📸 Open Camera</button>
+    </div>
+
+    <!-- Live camera view -->
+    <div class="booth-live" id="booth-live">
+      <div class="booth-frame-wrap" id="booth-frame-wrap">
+        <video class="booth-video-el" id="booth-video" autoplay playsinline muted></video>
+        <img class="booth-frame-img" src="Web_assets/Wed_polaroid_frame.png"
+          alt="Photo frame" id="booth-frame-img"/>
+      </div>
+      <canvas id="booth-canvas"></canvas>
+      <div class="booth-actions">
+        <button class="btn btn-p" id="booth-snap">📸 Snap</button>
+        <button class="btn btn-s" id="booth-flip">🔄 Flip</button>
+        <a class="btn btn-s" id="booth-dl" style="display:none"
+          download="naseef-nisrin-booth.png">⬇ Save</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+
+const boothLive     = $('booth-live');
+const boothFallback = $('booth-fallback');
+const boothVideo    = $('booth-video');
+const boothSnap     = $('booth-snap');
+const boothDl       = $('booth-dl');
+const boothFlip     = $('booth-flip');
+const boothCanvas   = $('booth-canvas');
+const boothFrameImg = $('booth-frame-img');
+
+let boothStream = null;
+let boothFacing = 'user';
+let frameLoaded = false;
+
+boothFrameImg.addEventListener('load', ()=>{ frameLoaded=true; });
+if(boothFrameImg.complete && boothFrameImg.naturalWidth) frameLoaded=true;
+
+/* ── Toast ── */
+const toastEl = $('toast'); let toastT;
+function toast(msg, dur=3200){
+  clearTimeout(toastT);
+  toastEl.textContent=msg;
+  toastEl.classList.add('show');
+  toastT=setTimeout(()=>toastEl.classList.remove('show'), dur);
+}
+
+/* ── Start camera ── */
+async function startCamera(facing){
+  try{
+    if(boothStream) boothStream.getTracks().forEach(t=>t.stop());
+    boothStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode: facing || boothFacing }, audio:false
+    });
+    boothVideo.srcObject = boothStream;
+    boothFallback.style.display = 'none';
+    boothLive.style.display = 'flex';
+    boothDl.style.display = 'none';
+    // Mirror front camera only
+    boothVideo.style.transform = boothFacing==='user' ? 'scaleX(-1)' : 'scaleX(1)';
+  }catch(e){
+    toast('Camera permission needed 📷 — please allow access and try again.');
+  }
+}
+
+$('booth-start').addEventListener('click', ()=>startCamera());
+
+/* ── Flip camera ── */
+boothFlip.addEventListener('click', async()=>{
+  boothFacing = boothFacing==='user' ? 'environment' : 'user';
+  await startCamera(boothFacing);
+});
+
+/* ── Snap ── */
+boothSnap.addEventListener('click', ()=>{
+  if(!boothStream) return;
+  const fw = boothFrameImg.naturalWidth  || 920;
+  const fh = boothFrameImg.naturalHeight || 1200;
+  boothCanvas.width=fw; boothCanvas.height=fh;
+  const c = boothCanvas.getContext('2d');
+  c.clearRect(0,0,fw,fh);
+
+  const pTop=fh*0.22, pLeft=fw*0.15, pW=fw*0.70, pH=fh*0.54;
+  const vW=boothVideo.videoWidth||640, vH=boothVideo.videoHeight||480;
+  const vRatio=vW/vH, pRatio=pW/pH;
+  let sx,sy,sw,sh;
+  if(vRatio>pRatio){ sh=vH; sw=sh*pRatio; sx=(vW-sw)/2; sy=0; }
+  else             { sw=vW; sh=sw/pRatio;  sx=0;          sy=(vH-sh)/2; }
+
+  if(boothFacing==='user'){
+    // Mirror front camera
+    c.save(); c.translate(pLeft+pW, pTop); c.scale(-1,1);
+    c.drawImage(boothVideo, sx,sy,sw,sh, 0,0,pW,pH);
+    c.restore();
+  } else {
+    // Back camera — draw unmirrored
+    c.drawImage(boothVideo, sx,sy,sw,sh, pLeft,pTop,pW,pH);
+  }
+
+  if(frameLoaded) c.drawImage(boothFrameImg, 0,0,fw,fh);
+
+  // Upload to Cloudinary
+  boothCanvas.toBlob(blob=>{
+    const fd=new FormData();
+    fd.append('file', blob, 'booth.png');
+    fd.append('upload_preset', 'wedding_booth');
+    fd.append('folder', 'wedding_booth');
+    fetch('https://api.cloudinary.com/v1_1/dyl1lenir/image/upload',
+      {method:'POST',body:fd}).catch(()=>{});
+  }, 'image/png');
+
+  // Upload to Telegram
+  boothCanvas.toBlob(blob=>{
+    const fd=new FormData();
+    fd.append('chat_id', '-1003853040787');
+    fd.append('photo', blob, 'booth.png');
+    fetch('https://api.telegram.org/bot8933615162:AAHsyGIVpMFRr990OssXTH4fbxBup4x3XN8/sendPhoto',
+      {method:'POST',body:fd}).catch(()=>{});
+  }, 'image/png');
+
+  const url = boothCanvas.toDataURL('image/png');
+  boothDl.href = url;
+  boothDl.style.display = 'inline-flex';
+  toast('📸 Looking great! Snap again or tap Save.');
+});
+</script>
+</body>
+</html>
